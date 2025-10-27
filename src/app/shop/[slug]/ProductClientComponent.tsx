@@ -19,13 +19,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Star, Minus, Plus, ShoppingCart } from "lucide-react";
+import { Star, Minus, Plus, ShoppingCart, ShieldCheck, Wrench, Award, Sparkles, User } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/hooks/use-cart.tsx";
 import { useToast } from "@/hooks/use-toast";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/data";
 import { formatRupiah } from "@/lib/utils";
+
+const DetailSection = ({ title, icon, items }: { title: string, icon: React.ReactNode, items: string[] | null | undefined }) => {
+    if (!items || items.length === 0) return null;
+    return (
+        <div>
+            <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                {icon} {title}
+            </h3>
+            <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-2">
+                {items.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+        </div>
+    );
+};
 
 
 export default function ProductClientComponent({ product, relatedProducts }: { product: Product, relatedProducts: Product[] }) {
@@ -70,7 +84,10 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
         </Carousel>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
+          <div>
+            <p className="text-primary font-semibold">{product.brand}</p>
+            <h1 className="text-3xl md:text-4xl font-bold">{product.name}</h1>
+          </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
@@ -89,9 +106,28 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
           <p className="text-3xl font-bold">{formatRupiah(product.price)}</p>
           <Separator />
           <p className="text-muted-foreground">{product.description}</p>
-          <ul className="list-disc list-inside text-muted-foreground space-y-1">
-            {product.details.map((detail, i) => <li key={i}>{detail}</li>)}
-          </ul>
+          
+          <div className="space-y-4 text-sm">
+              <DetailSection title="Materials" icon={<Wrench className="h-5 w-5 text-primary" />} items={product.materials} />
+              <DetailSection title="Protection" icon={<ShieldCheck className="h-5 w-5 text-primary" />} items={product.protection} />
+              <DetailSection title="Special Features" icon={<Sparkles className="h-5 w-5 text-primary" />} items={product.specialFeatures} />
+              
+              {product.certification && (
+                  <div>
+                      <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                          <Award className="h-5 w-5 text-primary" /> Certification
+                      </h3>
+                      <p className="text-muted-foreground pl-2">{product.certification}</p>
+                  </div>
+              )}
+               <div>
+                    <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                        <User className="h-5 w-5 text-primary" /> Gender
+                    </h3>
+                    <p className="text-muted-foreground pl-2">{product.gender}</p>
+                </div>
+          </div>
+
           <Separator />
           
           <div className="grid grid-cols-2 gap-4">
@@ -154,3 +190,5 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
     </>
   );
 }
+
+    
