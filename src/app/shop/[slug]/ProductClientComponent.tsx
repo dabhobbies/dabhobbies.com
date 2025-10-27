@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Star, Minus, Plus, ShoppingCart, ShieldCheck, Wrench, Award, Sparkles, User } from "lucide-react";
+import { Star, Minus, Plus, ShoppingCart, ShieldCheck, Wrench, Award, Sparkles, User, Scale } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/hooks/use-cart.tsx";
 import { useToast } from "@/hooks/use-toast";
@@ -126,6 +126,12 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
                     </h3>
                     <p className="text-muted-foreground pl-2">{product.gender}</p>
                 </div>
+                <div>
+                    <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                        <Scale className="h-5 w-5 text-primary" /> Weight
+                    </h3>
+                    <p className="text-muted-foreground pl-2">{product.weight} kg</p>
+                </div>
           </div>
 
           <Separator />
@@ -199,3 +205,5 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
     </>
   );
 }
+
+    

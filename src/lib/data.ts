@@ -20,6 +20,7 @@ export type Product = {
   protection: string[];
   certification: string | null;
   specialFeatures: string[];
+  weight: number; // in kilograms
 };
 
 export const products: Product[] = [
@@ -42,6 +43,7 @@ export const products: Product[] = [
     protection: ['High impact absorption shell'],
     certification: 'DOT, ECE 22.05',
     specialFeatures: ['Integrated sun visor', 'Advanced channeling ventilation system'],
+    weight: 1.5,
   },
   {
     id: 'prod_2',
@@ -62,6 +64,7 @@ export const products: Product[] = [
     protection: ['Removable CE-approved shoulder armor', 'Removable CE-approved elbow armor'],
     certification: 'EN 17092 Class A',
     specialFeatures: ['Action back for comfort and mobility', 'Multiple zippered pockets for storage', 'Waist adjustment straps'],
+    weight: 2.5,
   },
   {
     id: 'prod_3',
@@ -82,6 +85,7 @@ export const products: Product[] = [
     protection: ['TPU molded hard knuckle protector', 'Reinforced palm slider'],
     certification: 'CE Certified EN 13594:2015',
     specialFeatures: ['Touchscreen compatible fingertips', 'Pre-curved finger construction', 'Hook and loop wrist closure'],
+    weight: 0.4,
   },
   {
     id: 'prod_4',
@@ -102,6 +106,7 @@ export const products: Product[] = [
     protection: ['Shin plate', 'Ankle support braces', 'Reinforced heel cup'],
     certification: 'CE Certified EN 13634:2017',
     specialFeatures: ['Waterproof and breathable', 'High-grip rubber sole', 'Side-entry system with zipper and Velcro'],
+    weight: 1.8,
   },
   {
     id: 'prod_5',
@@ -122,6 +127,7 @@ export const products: Product[] = [
     protection: ['Multi-density EPS liner'],
     certification: 'DOT',
     specialFeatures: ['Goggle strap holder', '3-snap visor compatibility', 'Lightweight design'],
+    weight: 1.3,
   },
   {
     id: 'prod_6',
@@ -142,6 +148,7 @@ export const products: Product[] = [
     protection: ['Seesmart CE-level 1 shoulder protectors', 'Seesmart CE-level 1 elbow protectors', 'Pocket for back protector'],
     certification: 'EN 17092 Class AA',
     specialFeatures: ['Removable full-sleeve thermal liner', 'Adjustable ventilation ports', 'Waterproof'],
+    weight: 3.2,
   },
   {
     id: 'prod_7',
@@ -162,6 +169,7 @@ export const products: Product[] = [
     protection: ['Removable CE Level 2 knee protectors', 'Removable CE Level 2 hip protectors'],
     certification: 'EN 17092 Class A',
     specialFeatures: ['Classic 5-pocket design', 'Comfort-fit'],
+    weight: 1.1,
   },
   {
     id: 'prod_8',
@@ -182,5 +190,8 @@ export const products: Product[] = [
     protection: ['CE-certified internal protectors', 'GP-R elbow, shoulder, knee protectors', 'DFS sliders'],
     certification: 'CE-certified to CE Category II',
     specialFeatures: ['Aerodynamic back hump', 'Perforated panels for ventilation', 'Replaceable sport knee sliders'],
+    weight: 4.5,
   },
 ];
+
+    
