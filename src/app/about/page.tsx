@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ShieldCheck, UserCog, Bike } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function AboutUsPage() {
   const aboutImage = PlaceHolderImages.find((p) => p.id === "about-us-hero");
 
   return (
     <div>
+        <Breadcrumbs items={[{ label: "About", href: "/about" }]} />
       {/* Hero Section */}
       <section className="relative h-[50vh] w-full flex items-center justify-center text-center text-white">
         {aboutImage && (

@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Phone, Mail, MapPin, MessageSquare, ExternalLink } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function ContactUsPage() {
   const contactImage = PlaceHolderImages.find((p) => p.id === "contact-us-hero");
 
   return (
     <div>
+        <Breadcrumbs items={[{ label: "Contact", href: "/contact" }]} />
       {/* Hero Section */}
       <section className="relative h-[50vh] w-full flex items-center justify-center text-center text-white">
         {contactImage && (

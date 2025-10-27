@@ -18,6 +18,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Star, ListFilter, X } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 import { useDebounce } from "@/hooks/use-debounce";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 const allCategories = [...new Set(products.map((p) => p.category))];
 const allBrands = [...new Set(products.map((p) => p.brand))];
@@ -242,74 +243,77 @@ export default function AllProductsPage() {
   );
 
   return (
-    <div className="container mx-auto py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold uppercase">All Products</h1>
-        <p className="text-muted-foreground mt-2">Find your perfect gear with our advanced filters.</p>
-      </div>
-      <div className="flex gap-8">
-        {/* Sidebar for Desktop */}
-        <aside className="hidden lg:block w-1/4 xl:w-1/5">
-          <div className="sticky top-24 glass-card p-6">
-            <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
-            <Filters />
-          </div>
-        </aside>
-
-        {/* Main Content */}
-        <main className="w-full lg:w-3/4 xl:w-4/5">
-          <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-            <p className="text-sm text-muted-foreground">{filteredProducts.length} products found</p>
-            <div className="flex items-center gap-4">
-              <Select value={sortOrder} onValueChange={setSortOrder}>
-                <SelectTrigger className="w-[180px] bg-transparent">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="relevance">Relevance</SelectItem>
-                  <SelectItem value="price-asc">Price: Low to High</SelectItem>
-                  <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                  <SelectItem value="rating-desc">Highest Rating</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button variant="outline" size="icon" className="lg:hidden bg-transparent" onClick={() => setIsSidebarOpen(true)}>
-                <ListFilter className="h-4 w-4" />
-              </Button>
+    <>
+      <Breadcrumbs items={[{ label: "Shop", href: "/shop" }]} />
+      <div className="container mx-auto py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold uppercase">All Products</h1>
+          <p className="text-muted-foreground mt-2">Find your perfect gear with our advanced filters.</p>
+        </div>
+        <div className="flex gap-8">
+          {/* Sidebar for Desktop */}
+          <aside className="hidden lg:block w-1/4 xl:w-1/5">
+            <div className="sticky top-24 glass-card p-6">
+              <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
+              <Filters />
             </div>
-          </div>
-          
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          </aside>
 
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-20 glass-card">
-                <p className="text-lg text-muted-foreground">No products match your criteria.</p>
-                <Button variant="link" onClick={resetFilters} className="mt-2">Clear all filters</Button>
-            </div>
-          )}
-        </main>
-      </div>
-
-      {/* Sidebar for Mobile */}
-      {isSidebarOpen && (
-        <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
-      )}
-      <div className={`fixed top-0 left-0 h-full w-4/5 max-w-sm bg-background/80 backdrop-blur-xl z-50 transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:hidden`}>
-          <div className="p-6 h-full flex flex-col">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Filters</h2>
-                <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)}>
-                    <X className="h-5 w-5" />
+          {/* Main Content */}
+          <main className="w-full lg:w-3/4 xl:w-4/5">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+              <p className="text-sm text-muted-foreground">{filteredProducts.length} products found</p>
+              <div className="flex items-center gap-4">
+                <Select value={sortOrder} onValueChange={setSortOrder}>
+                  <SelectTrigger className="w-[180px] bg-transparent">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="relevance">Relevance</SelectItem>
+                    <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                    <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                    <SelectItem value="rating-desc">Highest Rating</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button variant="outline" size="icon" className="lg:hidden bg-transparent" onClick={() => setIsSidebarOpen(true)}>
+                  <ListFilter className="h-4 w-4" />
                 </Button>
+              </div>
             </div>
-            <div className="overflow-y-auto flex-grow pr-4 -mr-4">
-                <Filters />
+            
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </div>
-          </div>
+
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-20 glass-card">
+                  <p className="text-lg text-muted-foreground">No products match your criteria.</p>
+                  <Button variant="link" onClick={resetFilters} className="mt-2">Clear all filters</Button>
+              </div>
+            )}
+          </main>
+        </div>
+
+        {/* Sidebar for Mobile */}
+        {isSidebarOpen && (
+          <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
+        )}
+        <div className={`fixed top-0 left-0 h-full w-4/5 max-w-sm bg-background/80 backdrop-blur-xl z-50 transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:hidden`}>
+            <div className="p-6 h-full flex flex-col">
+              <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-2xl font-bold">Filters</h2>
+                  <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)}>
+                      <X className="h-5 w-5" />
+                  </Button>
+              </div>
+              <div className="overflow-y-auto flex-grow pr-4 -mr-4">
+                  <Filters />
+              </div>
+            </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
