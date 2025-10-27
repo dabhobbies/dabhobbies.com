@@ -64,8 +64,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: linear-gradient(to bottom right, hsl(var(--background)), #0a0a0a), url('https://www.transparenttextures.com/patterns/dark-denim.png');
-    background-blend-mode: multiply;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
