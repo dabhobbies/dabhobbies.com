@@ -5,6 +5,7 @@ import {Footer} from '@/components/Footer';
 import {Toaster} from '@/components/ui/toaster';
 import {CartProvider} from '@/hooks/use-cart.tsx';
 import Image from 'next/image';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 
 export const metadata: Metadata = {
   title: 'Dab Hobbies',
@@ -40,6 +41,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster />
+          <WhatsAppButton phoneNumber="6281386865559" />
         </CartProvider>
       </body>
     </html>
