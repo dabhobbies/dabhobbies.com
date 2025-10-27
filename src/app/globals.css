@@ -14,19 +14,19 @@ body {
     --card-foreground: 210 40% 98%;
     --popover: 222 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 36 100% 50%; /* Orange */
-    --primary-foreground: 222 84% 4.9%;
+    --primary: 199 65% 45%; /* New Accent Blue */
+    --primary-foreground: 210 40% 98%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 36 100% 50%; /* Orange */
+    --accent: 199 65% 45%; /* New Accent Blue */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 25.5%; /* Lighter border for glass effect */
     --input: 217.2 32.6% 17.5%;
-    --ring: 36 100% 50%;
+    --ring: 199 65% 45%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -41,19 +41,19 @@ body {
     --card-foreground: 210 40% 98%;
     --popover: 222 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 36 100% 50%;
-    --primary-foreground: 222 84% 4.9%;
+    --primary: 199 65% 45%;
+    --primary-foreground: 210 40% 98%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 36 100% 50%;
+    --accent: 199 65% 45%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 25.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 36 100% 50%;
+    --ring: 199 65% 45%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
