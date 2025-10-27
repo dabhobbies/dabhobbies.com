@@ -2,7 +2,6 @@
 "use client";
 
 import Link from "next/link";
-import { MotorcycleIcon } from "@/components/icons/MotorcycleIcon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Menu, Search, X } from "lucide-react";
@@ -14,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/shop/category/helmets", label: "Helmets" },
@@ -29,7 +29,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/50 backdrop-blur-xl">
       <div className="container flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center gap-2">
-          <MotorcycleIcon className="h-6 w-6 text-primary" />
+          <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={40} height={40} />
           <span className="font-headline font-bold text-lg uppercase">Dab Hobbies</span>
         </Link>
 
