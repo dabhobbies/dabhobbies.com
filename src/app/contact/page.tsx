@@ -79,14 +79,16 @@ export default function ContactUsPage() {
 
             {/* Map Section */}
             <div className="glass-card p-4 flex flex-col items-center justify-center">
-                <div className="w-full h-64 md:h-full rounded-lg overflow-hidden relative">
-                     <Image
-                        src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549429/map-dabhobbies_e9p1b3.webp"
-                        alt="Lokasi Dab Hobbies di Peta"
-                        fill
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/30" />
+                <div className="w-full h-full rounded-lg overflow-hidden">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.026153311093!2d110.35832457471228!3d-7.787051692232757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a5824a4bb5745%3A0xfe7dd0f02ea55806!2sDab%20Hobbies!5e0!3m2!1sen!2sid!4v1761560648323!5m2!1sen!2sid" 
+                        width="100%" 
+                        height="100%" 
+                        style={{ border:0, minHeight: '400px' }} 
+                        allowFullScreen={true}
+                        loading="lazy" 
+                        referrerPolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
                  <Button asChild className="mt-6 uppercase font-bold w-full">
                     <a href="https://www.google.co.id/maps/dir/''/Dab+Hobbieshop" target="_blank" rel="noopener noreferrer">
