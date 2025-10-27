@@ -30,6 +30,7 @@ export function Footer() {
           <div className="md:col-span-2">
             <h4 className="font-headline uppercase font-semibold mb-4">Support</h4>
             <ul className="space-y-2">
+              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary">About Us</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Contact Us</Link></li>
               <li><Link href="/orders/12345" className="text-sm text-muted-foreground hover:text-primary">Track Order</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">FAQ</Link></li>
