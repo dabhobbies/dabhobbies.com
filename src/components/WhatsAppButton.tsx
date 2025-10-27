@@ -12,10 +12,10 @@ export function WhatsAppButton({ phoneNumber }: { phoneNumber: string }) {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 z-50 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md p-4 shadow-lg transition-transform hover:scale-110"
+      className="fixed bottom-6 right-6 z-50 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md p-3 shadow-lg transition-transform hover:scale-110"
       aria-label="Chat on WhatsApp"
     >
-      <MessageSquare className="h-8 w-8" />
+      <MessageSquare className="h-6 w-6" />
     </Link>
   );
 }
