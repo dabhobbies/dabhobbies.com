@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useCart } from "@/hooks/use-cart.tsx";
@@ -9,6 +10,7 @@ import {
   SheetTitle,
   SheetFooter,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -117,9 +119,11 @@ export function CartSheet() {
                   <span>Subtotal</span>
                   <span>{formatRupiah(subtotal)}</span>
                 </div>
-                <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                  <Link href="/checkout">Proceed to Checkout</Link>
-                </Button>
+                <SheetClose asChild>
+                    <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                      <Link href="/checkout">Proceed to Checkout</Link>
+                    </Button>
+                </SheetClose>
               </div>
             </SheetFooter>
           </>
