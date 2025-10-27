@@ -24,7 +24,7 @@ body {
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
+    --border: 217.2 32.6% 25.5%; /* Lighter border for glass effect */
     --input: 217.2 32.6% 17.5%;
     --ring: 36 100% 50%;
     --chart-1: 220 70% 50%;
@@ -32,7 +32,7 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --radius: 0.3rem;
+    --radius: 0.5rem; /* Slightly larger radius */
   }
   .dark {
     --background: 222 84% 4.9%;
@@ -51,7 +51,7 @@ body {
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
+    --border: 217.2 32.6% 25.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 36 100% 50%;
     --chart-1: 220 70% 50%;
@@ -68,8 +68,15 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    background-image: linear-gradient(to bottom right, hsl(var(--background)), #0a0a0a);
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-xl border rounded-xl shadow-lg;
   }
 }

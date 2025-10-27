@@ -26,7 +26,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/50 backdrop-blur-xl">
       <div className="container flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center gap-2">
           <MotorcycleIcon className="h-6 w-6 text-primary" />
@@ -51,7 +51,7 @@ export function Header() {
             <Input
               type="search"
               placeholder="Search products..."
-              className="pl-9 h-9 w-[200px] lg:w-[250px]"
+              className="pl-9 h-9 w-[200px] lg:w-[250px] bg-transparent"
             />
           </div>
           <CartSheet />
@@ -64,7 +64,7 @@ export function Header() {
                   <span className="sr-only">Open menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-56 glass-card border-white/20">
                 {navLinks.map((link) => (
                   <DropdownMenuItem key={link.href} asChild>
                     <Link

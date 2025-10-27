@@ -13,16 +13,17 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[70vh] w-full flex items-center justify-center text-center text-white">
+      <section className="relative h-[60vh] md:h-[80vh] w-full flex items-center justify-center text-center text-white">
         <Image
           src={heroImage.imageUrl}
           alt={heroImage.description}
           fill
-          className="object-cover brightness-50"
+          className="object-cover"
           priority
           data-ai-hint={heroImage.imageHint}
         />
-        <div className="relative z-10 p-4 max-w-2xl">
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 p-8 max-w-3xl glass-card border-white/20">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">
             Ride in Style. Ride with Confidence.
           </h1>
@@ -47,7 +48,7 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center mt-12">
-            <Button asChild variant="outline" size="lg" className="uppercase">
+            <Button asChild variant="outline" size="lg" className="uppercase bg-transparent hover:bg-primary/10">
               <Link href="/shop">View All Products</Link>
             </Button>
           </div>
@@ -55,15 +56,15 @@ export default function Home() {
       </section>
       
       {/* Categories Section */}
-      <section className="bg-secondary py-16 md:py-24">
+      <section className="bg-secondary/50 py-16 md:py-24">
           <div className="container">
               <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Category</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                   {products.filter((p, i, a) => a.findIndex(t => t.category === p.category) === i).slice(0,4).map(p => (
                       <Link href={`/shop/category/${p.category.toLowerCase()}`} key={p.category} className="group block text-center">
-                          <div className="relative overflow-hidden rounded-lg">
+                          <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
                               <Image src={p.image.imageUrl} alt={p.category} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={p.image.imageHint}/>
-                              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"/>
+                              <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                           </div>
                           <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{p.category}</h3>
                       </Link>

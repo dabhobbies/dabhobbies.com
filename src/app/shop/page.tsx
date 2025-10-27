@@ -117,6 +117,7 @@ export default function AllProductsPage() {
             placeholder="Search by product name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="bg-transparent"
         />
       </div>
       <Accordion type="multiple" defaultValue={['category', 'price', 'rating']} className="w-full">
@@ -182,6 +183,7 @@ export default function AllProductsPage() {
                 variant={selectedSizes.includes(size) ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => handleSizeChange(size)}
+                className="bg-transparent hover:bg-primary/20"
               >
                 {size}
               </Button>
@@ -197,7 +199,7 @@ export default function AllProductsPage() {
                 variant={selectedColors.includes(color) ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => handleColorChange(color)}
-                className="capitalize"
+                className="capitalize bg-transparent hover:bg-primary/20"
               >
                 {color}
               </Button>
@@ -205,7 +207,7 @@ export default function AllProductsPage() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <Button variant="outline" className="w-full" onClick={resetFilters}>Reset Filters</Button>
+      <Button variant="outline" className="w-full bg-transparent hover:bg-primary/20" onClick={resetFilters}>Reset Filters</Button>
     </div>
   );
 
@@ -218,7 +220,7 @@ export default function AllProductsPage() {
       <div className="flex gap-8">
         {/* Sidebar for Desktop */}
         <aside className="hidden lg:block w-1/4 xl:w-1/5">
-          <div className="sticky top-24">
+          <div className="sticky top-24 glass-card p-6">
             <h2 className="text-2xl font-bold mb-4">Filters</h2>
             <Filters />
           </div>
@@ -230,30 +232,30 @@ export default function AllProductsPage() {
             <p className="text-sm text-muted-foreground">{filteredProducts.length} products found</p>
             <div className="flex items-center gap-4">
               <Select value={sortOrder} onValueChange={setSortOrder}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px] bg-transparent">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="glass-card">
                   <SelectItem value="relevance">Relevance</SelectItem>
                   <SelectItem value="price-asc">Price: Low to High</SelectItem>
                   <SelectItem value="price-desc">Price: High to Low</SelectItem>
                   <SelectItem value="rating-desc">Highest Rating</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline" size="icon" className="lg:hidden" onClick={() => setIsSidebarOpen(true)}>
+              <Button variant="outline" size="icon" className="lg:hidden bg-transparent" onClick={() => setIsSidebarOpen(true)}>
                 <ListFilter className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
 
           {filteredProducts.length === 0 && (
-            <div className="text-center py-20">
+            <div className="text-center py-20 glass-card">
                 <p className="text-lg text-muted-foreground">No products match your criteria.</p>
                 <Button variant="link" onClick={resetFilters} className="mt-2">Clear all filters</Button>
             </div>
@@ -265,7 +267,7 @@ export default function AllProductsPage() {
       {isSidebarOpen && (
         <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
       )}
-      <div className={`fixed top-0 left-0 h-full w-4/5 max-w-sm bg-background z-50 transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:hidden`}>
+      <div className={`fixed top-0 left-0 h-full w-4/5 max-w-sm bg-background/80 backdrop-blur-xl z-50 transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:hidden`}>
           <div className="p-6 h-full flex flex-col">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Filters</h2>

@@ -5,7 +5,7 @@ import { Github, Twitter, Facebook } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t bg-card">
+    <footer className="border-t border-white/10 bg-background/50 backdrop-blur-xl">
       <div className="container py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
@@ -48,7 +48,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 border-t pt-6 text-center text-sm text-muted-foreground">
+        <div className="mt-8 border-t border-white/10 pt-6 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Dab Hobbies. All Rights Reserved.
         </div>
       </div>

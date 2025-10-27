@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+    <Card className="overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card/60 backdrop-blur-xl border-white/10">
       <CardContent className="p-0">
         <div className="relative group">
           <Link href={`/shop/${product.slug}`}>
@@ -51,7 +51,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </Link>
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%]">
             <Button 
-              className="w-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-background/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="w-full bg-background/70 backdrop-blur-sm text-foreground hover:bg-background/90 border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               onClick={handleAddToCart}
             >
               <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart

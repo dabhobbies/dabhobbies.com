@@ -66,11 +66,13 @@ export default function CheckoutPage() {
   if (state.items.length === 0) {
     return (
         <div className="container mx-auto py-24 text-center">
-            <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
-            <p className="text-muted-foreground mb-8">Add some products to your cart before checking out.</p>
-            <Button asChild>
-                <Link href="/">Return to Shop</Link>
-            </Button>
+            <div className="max-w-md mx-auto p-8 glass-card">
+                <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
+                <p className="text-muted-foreground mb-8">Add some products to your cart before checking out.</p>
+                <Button asChild>
+                    <Link href="/">Return to Shop</Link>
+                </Button>
+            </div>
         </div>
     )
   }
@@ -130,33 +132,33 @@ Mohon konfirmasi pesanannya. Terima kasih!
     <div className="container mx-auto py-12 md:py-16">
       <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center uppercase font-headline">Checkout</h1>
       <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-        <form onSubmit={handlePlaceOrder} className="md:col-span-2 space-y-8">
+        <form onSubmit={handlePlaceOrder} className="md:col-span-2 space-y-8 p-8 glass-card">
           <div>
             <h2 className="text-2xl font-semibold mb-4 font-headline uppercase">Informasi Pengiriman</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">Nama Depan</Label>
-                <Input name="firstName" id="firstName" placeholder="John" required value={shippingInfo.firstName} onChange={handleInputChange} />
+                <Input name="firstName" id="firstName" placeholder="John" required value={shippingInfo.firstName} onChange={handleInputChange} className="bg-transparent"/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="lastName">Nama Belakang</Label>
-                <Input name="lastName" id="lastName" placeholder="Doe" required value={shippingInfo.lastName} onChange={handleInputChange}/>
+                <Input name="lastName" id="lastName" placeholder="Doe" required value={shippingInfo.lastName} onChange={handleInputChange} className="bg-transparent"/>
               </div>
               <div className="sm:col-span-2 space-y-2">
                 <Label htmlFor="address">Alamat</Label>
-                <Input name="address" id="address" placeholder="Jl. Jend. Sudirman No. 123" required value={shippingInfo.address} onChange={handleInputChange}/>
+                <Input name="address" id="address" placeholder="Jl. Jend. Sudirman No. 123" required value={shippingInfo.address} onChange={handleInputChange} className="bg-transparent"/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="city">Kota</Label>
-                <Input name="city" id="city" placeholder="Jakarta" required value={shippingInfo.city} onChange={handleInputChange}/>
+                <Input name="city" id="city" placeholder="Jakarta" required value={shippingInfo.city} onChange={handleInputChange} className="bg-transparent"/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="state">Provinsi</Label>
-                <Input name="state" id="state" placeholder="DKI Jakarta" required value={shippingInfo.state} onChange={handleInputChange}/>
+                <Input name="state" id="state" placeholder="DKI Jakarta" required value={shippingInfo.state} onChange={handleInputChange} className="bg-transparent"/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="zip">Kode Pos</Label>
-                <Input name="zip" id="zip" placeholder="12345" required value={shippingInfo.zip} onChange={handleInputChange}/>
+                <Input name="zip" id="zip" placeholder="12345" required value={shippingInfo.zip} onChange={handleInputChange} className="bg-transparent"/>
               </div>
             </div>
           </div>
@@ -164,15 +166,15 @@ Mohon konfirmasi pesanannya. Terima kasih!
           <div>
             <h2 className="text-2xl font-semibold mb-4 font-headline uppercase">Metode Pembayaran</h2>
             <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-2">
-              <div className="flex items-center space-x-2 rounded-md border border-input p-3 has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+              <div className="flex items-center space-x-3 rounded-md border border-input p-3 has-[:checked]:bg-primary/20 has-[:checked]:border-primary transition-all bg-background/30">
                 <RadioGroupItem value="qris" id="qris" />
                 <Label htmlFor="qris" className="font-medium cursor-pointer flex-grow">QRIS</Label>
               </div>
-              <div className="flex items-center space-x-2 rounded-md border border-input p-3 has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+              <div className="flex items-center space-x-3 rounded-md border border-input p-3 has-[:checked]:bg-primary/20 has-[:checked]:border-primary transition-all bg-background/30">
                 <RadioGroupItem value="bca" id="bca" />
                 <Label htmlFor="bca" className="font-medium cursor-pointer flex-grow">Bank BCA</Label>
               </div>
-              <div className="flex items-center space-x-2 rounded-md border border-input p-3 has-[:checked]:bg-primary/10 has-[:checked]:border-primary">
+              <div className="flex items-center space-x-3 rounded-md border border-input p-3 has-[:checked]:bg-primary/20 has-[:checked]:border-primary transition-all bg-background/30">
                 <RadioGroupItem value="bri" id="bri" />
                 <Label htmlFor="bri" className="font-medium cursor-pointer flex-grow">Bank BRI</Label>
               </div>
@@ -183,7 +185,7 @@ Mohon konfirmasi pesanannya. Terima kasih!
           </Button>
         </form>
 
-        <div className="bg-card p-6 rounded-lg h-fit sticky top-24">
+        <div className="glass-card p-6 h-fit sticky top-24">
           <h2 className="text-2xl font-semibold mb-4 font-headline uppercase">Ringkasan Pesanan</h2>
           <div className="space-y-3">
             {state.items.map(item => (
@@ -199,7 +201,7 @@ Mohon konfirmasi pesanannya. Terima kasih!
               </div>
             ))}
           </div>
-          <Separator className="my-4" />
+          <Separator className="my-4 bg-white/20" />
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <p className="text-muted-foreground">Subtotal</p>
@@ -214,7 +216,7 @@ Mohon konfirmasi pesanannya. Terima kasih!
               <p>{formatRupiah(tax)}</p>
             </div>
           </div>
-          <Separator className="my-4" />
+          <Separator className="my-4 bg-white/20" />
           <div className="flex justify-between font-bold text-lg">
             <p>Total</p>
             <p>{formatRupiah(total)}</p>
