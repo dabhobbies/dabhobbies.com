@@ -23,11 +23,11 @@ export default function Home() {
           data-ai-hint={heroImage.imageHint}
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 p-8 max-w-3xl glass-card border-white/20">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">
+        <div className="relative z-10 p-8 max-w-3xl">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase drop-shadow-lg">
             Ride in Style. Ride with Confidence.
           </h1>
-          <p className="mt-4 text-lg md:text-xl text-white/90">
+          <p className="mt-4 text-lg md:text-xl text-white/90 drop-shadow-md">
             Discover our collection of premium motorcycle apparel, designed for the modern rider.
           </p>
           <Button asChild size="lg" className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg uppercase">
