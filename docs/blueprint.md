@@ -1,17 +1,18 @@
-# **App Name**: NextBase
+# **App Name**: GearUp Garage
 
 ## Core Features:
 
-- Page Routing: Basic page routing using Next.js.
-- Component Structure: Organized directory for reusable components.
-- Basic Styling: Configuration for basic styling to maintain design consistency.
-- Environment Variables: Configuration of environment variables using .env files
+- Product Catalog: Showcase a wide range of motorcycle apparel with detailed descriptions, images, and pricing.
+- Shopping Cart: Allow users to add products to a shopping cart and manage their selections.
+- Secure Checkout: Provide a secure and streamlined checkout process with multiple payment options.
+- Order Tracking: Enable customers to track their orders in real-time.
 
 ## Style Guidelines:
 
-- Background color: Soft gray (#F4F4F4) for a clean and modern look.
-- Primary color: Deep blue (#3F51B5) for a professional and trustworthy feel.
-- Accent color: Teal (#00BCD4) for highlighting interactive elements and key information. 
-- Body and headline font: 'Inter', a sans-serif font for clear and readable text.
-- Use a grid-based layout for consistent spacing and alignment.
-- Subtle transitions and animations for a smooth user experience.
+- Primary color: Vibrant orange (#FF9500) to reflect the energy of motorcycle culture.
+- Background color: Light gray (#F0F0F0), a slightly desaturated variant of the primary orange, for a clean backdrop that highlights the apparel.
+- Accent color: Deep blue (#004AAD), an analogous color to orange to provide visual contrast for key UI elements and calls to action.
+- Body and headline font: 'Inter', a sans-serif font with a modern and readable style suitable for an e-commerce platform.
+- Use motorcycle-themed icons for navigation and categories.
+- Prioritize high-quality product images in a grid layout.
+- Incorporate subtle animations on hover and transitions for enhanced user experience.

@@ -1,125 +1,77 @@
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { CheckCircle2, Layers, Zap } from 'lucide-react';
-import Link from 'next/link';
 
-const features = [
-  {
-    icon: <Layers className="h-8 w-8 text-primary" />,
-    title: 'Organized Components',
-    description:
-      'Reusable and well-structured components for rapid development.',
-  },
-  {
-    icon: <Zap className="h-8 w-8 text-primary" />,
-    title: 'Basic Page Routing',
-    description: 'Effortless navigation setup with Next.js App Router.',
-  },
-  {
-    icon: <CheckCircle2 className="h-8 w-8 text-primary" />,
-    title: 'Environment Ready',
-    description:
-      'Pre-configured for environment variables for a seamless setup.',
-  },
-];
+import { products } from "@/lib/data";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { ProductCard } from "@/components/ProductCard";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find((p) => p.id === 'hero');
+  const heroImage = PlaceHolderImages.find((p) => p.id === "hero-image")!;
+  const featuredProducts = products.slice(0, 4);
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div>
       {/* Hero Section */}
-      <section className="w-full py-16 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none font-headline animate-fade-in-up">
-                Build on a Solid Foundation
-              </h1>
-              <p
-                className="mx-auto max-w-[700px] text-muted-foreground md:text-xl animate-fade-in-up"
-                style={{ animationDelay: '0.2s' }}
-              >
-                NextBase provides the essential building blocks for your Next.js
-                application, so you can focus on creating, not configuring.
-              </p>
-            </div>
-            <div
-              className="space-x-4 animate-fade-in-up"
-              style={{ animationDelay: '0.4s' }}
-            >
-              <Button size="lg" asChild>
-                <Link href="#">Get Started</Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="#">Learn More</Link>
-              </Button>
-            </div>
-          </div>
+      <section className="relative h-[60vh] md:h-[70vh] w-full flex items-center justify-center text-center text-white">
+        <Image
+          src={heroImage.imageUrl}
+          alt={heroImage.description}
+          fill
+          className="object-cover brightness-50"
+          priority
+          data-ai-hint={heroImage.imageHint}
+        />
+        <div className="relative z-10 p-4 max-w-2xl">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">
+            Ride in Style. Ride with Confidence.
+          </h1>
+          <p className="mt-4 text-lg md:text-xl text-white/90">
+            Discover our collection of premium motorcycle apparel, designed for the modern rider.
+          </p>
+          <Button asChild size="lg" className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg uppercase">
+            <Link href="/shop">Shop Now</Link>
+          </Button>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="w-full py-16 md:py-24 lg:py-32 bg-secondary/50">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
-                Core Features
-              </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">
-                Everything You Need
-              </h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                A perfect starting point for any modern web application.
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
-            {features.map((feature, index) => (
-              <div key={index} className="grid gap-1 text-center">
-                <div className="flex justify-center mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-bold">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
-              </div>
+      {/* Featured Products Section */}
+      <section id="featured-products" className="py-16 md:py-24">
+        <div className="container">
+          <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">
+            Featured Products
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Visual Section */}
-      <section className="w-full py-16 md:py-24 lg:py-32">
-        <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight font-headline">
-              Visually Appealing by Default
-            </h2>
-            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Styled with a modern and clean design system using Tailwind CSS
-              and ShadCN UI. It's responsive, accessible, and looks great on
-              all devices.
-            </p>
-            <Button asChild>
-              <Link href="#">View Components</Link>
+          <div className="text-center mt-12">
+            <Button asChild variant="outline" size="lg" className="uppercase">
+              <Link href="/shop">View All Products</Link>
             </Button>
           </div>
-          <div className="flex justify-center">
-            {heroImage && (
-              <Image
-                src={heroImage.imageUrl}
-                alt={heroImage.description}
-                width={600}
-                height={400}
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full shadow-lg"
-                data-ai-hint={heroImage.imageHint}
-              />
-            )}
-          </div>
         </div>
       </section>
+      
+      {/* Categories Section */}
+      <section className="bg-secondary py-16 md:py-24">
+          <div className="container">
+              <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Category</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                  {products.filter((p, i, a) => a.findIndex(t => t.category === p.category) === i).slice(0,4).map(p => (
+                      <Link href={`/shop/category/${p.category.toLowerCase()}`} key={p.category} className="group block text-center">
+                          <div className="relative overflow-hidden rounded-lg">
+                              <Image src={p.image.imageUrl} alt={p.category} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={p.image.imageHint}/>
+                              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors"/>
+                          </div>
+                          <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{p.category}</h3>
+                      </Link>
+                  ))}
+              </div>
+          </div>
+      </section>
+
     </div>
   );
 }

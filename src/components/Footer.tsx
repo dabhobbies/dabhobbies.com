@@ -1,0 +1,57 @@
+
+import Link from "next/link";
+import { MotorcycleIcon } from "./icons/MotorcycleIcon";
+import { Github, Twitter, Facebook } from "lucide-react";
+
+export function Footer() {
+  return (
+    <footer className="border-t bg-card">
+      <div className="container py-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="col-span-2 md:col-span-1">
+             <Link href="/" className="flex items-center gap-2 mb-4">
+                <MotorcycleIcon className="h-6 w-6 text-primary" />
+                <span className="font-bold text-lg">Dab Hobbies</span>
+             </Link>
+            <p className="text-sm text-muted-foreground">Your one-stop shop for premium motorcycle apparel.</p>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-3">Shop</h4>
+            <ul className="space-y-2">
+              <li><Link href="/shop/category/helmets" className="text-sm text-muted-foreground hover:text-primary">Helmets</Link></li>
+              <li><Link href="/shop/category/jackets" className="text-sm text-muted-foreground hover:text-primary">Jackets</Link></li>
+              <li><Link href="/shop/category/gloves" className="text-sm text-muted-foreground hover:text-primary">Gloves</Link></li>
+              <li><Link href="/shop/category/boots" className="text-sm text-muted-foreground hover:text-primary">Boots</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-3">Support</h4>
+            <ul className="space-y-2">
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Contact Us</Link></li>
+              <li><Link href="/orders/12345" className="text-sm text-muted-foreground hover:text-primary">Track Order</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">FAQ</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Returns</Link></li>
+            </ul>
+          </div>
+           <div>
+            <h4 className="font-semibold mb-3">Follow Us</h4>
+            <div className="flex items-center gap-4">
+              <Link href="#" aria-label="Twitter">
+                <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary" />
+              </Link>
+              <Link href="#" aria-label="Facebook">
+                <Facebook className="h-5 w-5 text-muted-foreground hover:text-primary" />
+              </Link>
+              <Link href="#" aria-label="GitHub">
+                <Github className="h-5 w-5 text-muted-foreground hover:text-primary" />
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 border-t pt-6 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Dab Hobbies. All Rights Reserved.
+        </div>
+      </div>
+    </footer>
+  );
+}

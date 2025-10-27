@@ -1,10 +1,58 @@
 {
   "placeholderImages": [
     {
-      "id": "hero",
-      "description": "Abstract colorful geometric shapes representing a modern web application's structure.",
-      "imageUrl": "https://images.unsplash.com/photo-1482053450283-3e0b78b09a70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMGdlb21ldHJpY3xlbnwwfHx8fDE3NjE1MTU0MDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract geometric"
+      "id": "hero-image",
+      "description": "A scenic motorcycle ride on a winding road.",
+      "imageUrl": "https://images.unsplash.com/photo-1542227844-5e56c7c2687d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtb3RvcmN5Y2xlJTIwcm9hZHxlbnwwfHx8fDE3NjEyMDQ0Njh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "motorcycle road"
+    },
+    {
+      "id": "product-helmet-1",
+      "description": "A full-face motorcycle helmet in matte black.",
+      "imageUrl": "https://images.unsplash.com/photo-1591260035149-2829f11fdefe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtb3RvcmN5Y2xlJTIwaGVsbWV0fGVufDB8fHx8MTc2MTIwMzQ4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "motorcycle helmet"
+    },
+    {
+      "id": "product-jacket-1",
+      "description": "A leather motorcycle jacket with protective padding.",
+      "imageUrl": "https://images.unsplash.com/photo-1592158249887-ac6ae7921691?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxsZWF0aGVyJTIwamFja2V0fGVufDB8fHx8MTc2MTI3Nzg2M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leather jacket"
+    },
+    {
+      "id": "product-gloves-1",
+      "description": "A pair of armored motorcycle riding gloves.",
+      "imageUrl": "https://images.unsplash.com/photo-1582621883960-62079c316302?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtb3RvcmN5Y2xlJTIwZ2xvdmVzfGVufDB8fHx8MTc2MTI4Mzc2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "motorcycle gloves"
+    },
+    {
+      "id": "product-boots-1",
+      "description": "A pair of sturdy motorcycle riding boots.",
+      "imageUrl": "https://images.unsplash.com/photo-1611004061243-b8cd8c3fc7ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW90b3JjeWNsZSUyMGJvb3RzfGVufDB8fHx8MTc2MTI4Mzc2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "motorcycle boots"
+    },
+    {
+      "id": "product-helmet-2",
+      "description": "A vintage-style open-face helmet.",
+      "imageUrl": "https://images.unsplash.com/photo-1677440478148-6c7a775f497b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx2aW50YWdlJTIwaGVsbWV0fGVufDB8fHx8MTc2MTI4Mzc2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vintage helmet"
+    },
+    {
+      "id": "product-jacket-2",
+      "description": "A textile all-weather motorcycle jacket.",
+      "imageUrl": "https://images.unsplash.com/photo-1610359210361-93a98ba44a2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW90b3JjeWNsZSUyMGphY2tldHxlbnwwfHx8fDE3NjEyODM3NjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "motorcycle jacket"
+    },
+    {
+      "id": "product-pants-1",
+      "description": "Reinforced riding jeans with kevlar lining.",
+      "imageUrl": "https://images.unsplash.com/photo-1714056548974-ed3a098997d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyaWRpbmclMjBqZWFuc3xlbnwwfHx8fDE3NjEyODM3NjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "riding jeans"
+    },
+    {
+      "id": "product-suit-1",
+      "description": "A full-body leather racing suit.",
+      "imageUrl": "https://images.unsplash.com/photo-1758739956760-c51ceafe0fcd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyYWNpbmclMjBzdWl0fGVufDB8fHx8MTc2MTI4Mzc2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "racing suit"
     }
   ]
 }
