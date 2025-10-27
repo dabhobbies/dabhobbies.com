@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/hooks/use-cart";
+import { useCart } from "@/hooks/use-cart.tsx";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -104,8 +104,7 @@ export function CartSheet() {
                           }
                         >
                           <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
+                        </Button>                      </div>
                     </div>
                   </div>
                 ))}
@@ -133,7 +132,7 @@ export function CartSheet() {
             </p>
             <SheetTrigger asChild>
                 <Button asChild variant="link" className="mt-4 text-primary">
-                    <Link href="/">Start Shopping</Link>
+                    <Link href="/shop">Start Shopping</Link>
                 </Button>
             </SheetTrigger>
           </div>

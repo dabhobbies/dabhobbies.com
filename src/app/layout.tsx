@@ -3,7 +3,7 @@ import './globals.css';
 import {Header} from '@/components/Header';
 import {Footer} from '@/components/Footer';
 import {Toaster} from '@/components/ui/toaster';
-import {CartProvider} from '@/hooks/use-cart';
+import {CartProvider} from '@/hooks/use-cart.tsx';
 
 export const metadata: Metadata = {
   title: 'Dab Hobbies',
