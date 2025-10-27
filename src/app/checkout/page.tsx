@@ -152,8 +152,7 @@ export default function CheckoutPage() {
     0
   );
   const shipping = 50000;
-  const tax = subtotal * 0.11; // 11% PPN
-  const total = subtotal + shipping + tax;
+  const total = subtotal + shipping;
 
   const handlePlaceOrder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -170,7 +169,6 @@ ${itemsDetails}
 
 *Subtotal:* ${formatRupiah(subtotal)}
 *Pengiriman:* ${formatRupiah(shipping)}
-*Pajak (11%):* ${formatRupiah(tax)}
 *Total:* *${formatRupiah(total)}*
 
 *Alamat Pengiriman:*
@@ -273,10 +271,6 @@ Mohon konfirmasi pesanannya. Terima kasih!
               <div className="flex justify-between">
                 <p className="text-muted-foreground">Pengiriman</p>
                 <p>{formatRupiah(shipping)}</p>
-              </div>
-               <div className="flex justify-between">
-                <p className="text-muted-foreground">Pajak (PPN 11%)</p>
-                <p>{formatRupiah(tax)}</p>
               </div>
             </div>
             <Separator className="my-4 bg-white/20" />
