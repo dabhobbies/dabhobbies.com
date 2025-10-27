@@ -5,7 +5,6 @@ import type { Product } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/hooks/use-cart.tsx";
 import { useToast } from "@/hooks/use-toast";
@@ -36,8 +35,8 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card/60 backdrop-blur-xl border-white/10">
-      <CardContent className="p-0">
+    <div className="glass-card overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+      <div className="p-0">
         <div className="relative group">
           <Link href={`/shop/${product.slug}`}>
             <Image
@@ -60,12 +59,12 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
         <div className="p-4">
           <Link href={`/shop/${product.slug}`}>
-            <h3 className="font-semibold text-lg truncate">{product.name}</h3>
+            <h3 className="font-semibold text-lg truncate uppercase">{product.name}</h3>
           </Link>
           <p className="text-muted-foreground text-sm">{product.category}</p>
           <p className="font-bold text-lg mt-2">{formatRupiah(product.price)}</p>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

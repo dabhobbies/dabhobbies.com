@@ -57,12 +57,12 @@ export function Header() {
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="bg-transparent">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 glass-card border-white/20">
+              <DropdownMenuContent align="end" className="w-56 border-white/20">
                 {navLinks.map((link) => (
                   <DropdownMenuItem key={link.href} asChild>
                     <Link

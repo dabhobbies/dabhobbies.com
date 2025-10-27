@@ -111,7 +111,7 @@ export default function AllProductsPage() {
   const Filters = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="font-semibold mb-2">Search</h3>
+        <h3 className="font-semibold mb-2 uppercase">Search</h3>
         <Input
             placeholder="Search by product name..."
             value={searchTerm}
@@ -121,7 +121,7 @@ export default function AllProductsPage() {
       </div>
       <Accordion type="multiple" defaultValue={['category', 'price', 'rating']} className="w-full">
         <AccordionItem value="category">
-          <AccordionTrigger className="font-semibold">Category</AccordionTrigger>
+          <AccordionTrigger className="font-semibold uppercase">Category</AccordionTrigger>
           <AccordionContent className="space-y-2 pt-2">
             {allCategories.map((category) => (
               <div key={category} className="flex items-center space-x-2">
@@ -138,7 +138,7 @@ export default function AllProductsPage() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="price">
-          <AccordionTrigger className="font-semibold">Price</AccordionTrigger>
+          <AccordionTrigger className="font-semibold uppercase">Price</AccordionTrigger>
           <AccordionContent className="pt-4">
             <Slider
               min={0}
@@ -154,7 +154,7 @@ export default function AllProductsPage() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="rating">
-          <AccordionTrigger className="font-semibold">Rating</AccordionTrigger>
+          <AccordionTrigger className="font-semibold uppercase">Rating</AccordionTrigger>
           <AccordionContent className="space-y-2 pt-2">
             {[4, 3, 2, 1].map((rating) => (
               <div key={rating} className="flex items-center space-x-2">
@@ -174,7 +174,7 @@ export default function AllProductsPage() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="size">
-          <AccordionTrigger className="font-semibold">Size</AccordionTrigger>
+          <AccordionTrigger className="font-semibold uppercase">Size</AccordionTrigger>
           <AccordionContent className="flex flex-wrap gap-2 pt-2">
             {allSizes.map((size) => (
               <Button
@@ -190,7 +190,7 @@ export default function AllProductsPage() {
           </AccordionContent>
         </AccordionItem>
          <AccordionItem value="color">
-          <AccordionTrigger className="font-semibold">Color</AccordionTrigger>
+          <AccordionTrigger className="font-semibold uppercase">Color</AccordionTrigger>
           <AccordionContent className="flex flex-wrap gap-2 pt-2">
              {allColors.map((color) => (
               <Button
@@ -220,7 +220,7 @@ export default function AllProductsPage() {
         {/* Sidebar for Desktop */}
         <aside className="hidden lg:block w-1/4 xl:w-1/5">
           <div className="sticky top-24 glass-card p-6">
-            <h2 className="text-2xl font-bold mb-4">Filters</h2>
+            <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
             <Filters />
           </div>
         </aside>
@@ -234,7 +234,7 @@ export default function AllProductsPage() {
                 <SelectTrigger className="w-[180px] bg-transparent">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
-                <SelectContent className="glass-card">
+                <SelectContent>
                   <SelectItem value="relevance">Relevance</SelectItem>
                   <SelectItem value="price-asc">Price: Low to High</SelectItem>
                   <SelectItem value="price-desc">Price: High to Low</SelectItem>
