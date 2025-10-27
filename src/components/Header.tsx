@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -29,8 +28,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/50 backdrop-blur-xl">
       <div className="container flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center gap-2">
-          <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={40} height={40} />
-          <span className="font-headline font-bold text-lg uppercase">Dab Hobbies</span>
+          <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={120} height={40} className="object-contain" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">

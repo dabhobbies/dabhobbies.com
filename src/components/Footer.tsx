@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Github, Twitter, Facebook } from "lucide-react";
 import Image from "next/image";
@@ -9,9 +8,8 @@ export function Footer() {
       <div className="container py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-             <Link href="/" className="flex items-center gap-2 mb-4">
-                <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={40} height={40} />
-                <span className="font-bold text-lg">Dab Hobbies</span>
+             <Link href="/" className="inline-block mb-4">
+                <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={120} height={40} className="object-contain"/>
              </Link>
             <p className="text-sm text-muted-foreground">Your one-stop shop for premium motorcycle apparel.</p>
           </div>
