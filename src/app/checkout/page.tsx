@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useCart } from "@/hooks/use-cart.tsx";
+import { useCart, type CartItem } from "@/hooks/use-cart.tsx";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,14 @@ import { MessageCircle, Plus, Minus, Trash2 } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 const CHECKOUT_FORM_STORAGE_KEY = 'dab-hobbies-checkout-form';
 
@@ -25,6 +33,66 @@ type ShippingInfo = {
   state: string;
   zip: string;
 };
+
+function OrderSummaryItem({ item }: { item: CartItem }) {
+    const { dispatch } = useCart();
+
+    const handleVariantChange = (type: 'size' | 'color', value: string) => {
+        const newItem: CartItem = { ...item, [type]: value };
+        dispatch({
+            type: 'UPDATE_VARIANT',
+            payload: { oldSize: item.size, oldColor: item.color, newItem: newItem }
+        });
+    };
+
+    return (
+        <div className="flex gap-4">
+            <Image src={item.product.image.imageUrl} alt={item.product.name} width={80} height={80} className="rounded-md object-cover" />
+            <div className="flex flex-col text-sm flex-grow gap-2">
+                <p className="font-medium line-clamp-2">{item.product.name}</p>
+                <p className="font-semibold text-sm">{formatRupiah(item.product.price)}</p>
+                
+                <div className="grid grid-cols-2 gap-2">
+                    <Select value={item.size} onValueChange={(value) => handleVariantChange('size', value)}>
+                        <SelectTrigger className="h-8 text-xs bg-transparent">
+                            <SelectValue placeholder="Size" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {item.product.sizes.map((size) => (
+                                <SelectItem key={size} value={size} className="text-xs">{size}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Select value={item.color} onValueChange={(value) => handleVariantChange('color', value)}>
+                        <SelectTrigger className="h-8 text-xs bg-transparent">
+                            <SelectValue placeholder="Color" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {item.product.colors.map((color) => (
+                                <SelectItem key={color} value={color} className="text-xs">{color}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <div className="flex items-center justify-between mt-1">
+                    <div className="flex items-center gap-2">
+                        <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => dispatch({ type: "UPDATE_QUANTITY", payload: { ...item, productId: item.product.id, quantity: item.quantity - 1 } })}>
+                            <Minus className="h-3 w-3" />
+                        </Button>
+                        <span className="font-bold text-xs w-4 text-center">{item.quantity}</span>
+                        <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => dispatch({ type: "UPDATE_QUANTITY", payload: { ...item, productId: item.product.id, quantity: item.quantity + 1 } })}>
+                            <Plus className="h-3 w-3" />
+                        </Button>
+                    </div>
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive h-6 w-6" onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { ...item, productId: item.product.id } })}>
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default function CheckoutPage() {
   const { state, dispatch } = useCart();
@@ -191,30 +259,9 @@ Mohon konfirmasi pesanannya. Terima kasih!
 
           <div className="glass-card p-6 h-fit sticky top-24">
             <h2 className="text-2xl font-semibold mb-4 font-headline uppercase">Ringkasan Pesanan</h2>
-            <div className="space-y-4">
+            <div className="space-y-6">
               {state.items.map(item => (
-                <div key={`${item.product.id}-${item.size}-${item.color}`} className="flex gap-4">
-                  <Image src={item.product.image.imageUrl} alt={item.product.name} width={64} height={64} className="rounded-md" />
-                  <div className="flex flex-col text-sm flex-grow">
-                      <p className="font-medium line-clamp-1">{item.product.name}</p>
-                      <p className="text-muted-foreground text-xs">{item.size} / {item.color}</p>
-                      <p className="font-semibold text-sm mt-1">{formatRupiah(item.product.price)}</p>
-                      <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center gap-2">
-                              <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => dispatch({ type: "UPDATE_QUANTITY", payload: { ...item, productId: item.product.id, quantity: item.quantity - 1 } })}>
-                                  <Minus className="h-3 w-3" />
-                              </Button>
-                              <span className="font-bold text-xs w-4 text-center">{item.quantity}</span>
-                              <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => dispatch({ type: "UPDATE_QUANTITY", payload: { ...item, productId: item.product.id, quantity: item.quantity + 1 } })}>
-                                  <Plus className="h-3 w-3" />
-                              </Button>
-                          </div>
-                          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive h-6 w-6" onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { ...item, productId: item.product.id } })}>
-                              <Trash2 className="h-4 w-4" />
-                          </Button>
-                      </div>
-                  </div>
-                </div>
+                <OrderSummaryItem key={`${item.product.id}-${item.size}-${item.color}`} item={item} />
               ))}
             </div>
             <Separator className="my-4 bg-white/20" />

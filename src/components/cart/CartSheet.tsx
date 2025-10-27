@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useCart } from "@/hooks/use-cart.tsx";
+import { useCart, type CartItem } from "@/hooks/use-cart.tsx";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -18,9 +18,123 @@ import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+
+function CartItem({ item }: { item: CartItem }) {
+  const { dispatch } = useCart();
+
+  const handleVariantChange = (type: 'size' | 'color', value: string) => {
+    const newItem: CartItem = {
+      ...item,
+      [type]: value,
+    };
+
+    dispatch({
+      type: 'UPDATE_VARIANT',
+      payload: {
+        oldSize: item.size,
+        oldColor: item.color,
+        newItem: newItem,
+      }
+    });
+  };
+
+  return (
+    <div className="flex gap-4">
+      <Image
+        src={item.product.image.imageUrl}
+        alt={item.product.name}
+        width={80}
+        height={80}
+        className="rounded-md object-cover"
+      />
+      <div className="flex flex-col text-sm flex-grow gap-2">
+        <div>
+          <h3 className="font-medium line-clamp-2">{item.product.name}</h3>
+          <p className="font-semibold mt-1">{formatRupiah(item.product.price)}</p>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-2">
+          <Select value={item.size} onValueChange={(value) => handleVariantChange('size', value)}>
+            <SelectTrigger className="h-8 text-xs bg-transparent">
+              <SelectValue placeholder="Size" />
+            </SelectTrigger>
+            <SelectContent>
+              {item.product.sizes.map((size) => (
+                <SelectItem key={size} value={size} className="text-xs">{size}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={item.color} onValueChange={(value) => handleVariantChange('color', value)}>
+            <SelectTrigger className="h-8 text-xs bg-transparent">
+              <SelectValue placeholder="Color" />
+            </SelectTrigger>
+            <SelectContent>
+              {item.product.colors.map((color) => (
+                <SelectItem key={color} value={color} className="text-xs">{color}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex items-center justify-between mt-1">
+          <div className="flex items-center gap-2">
+             <Button
+              variant="outline"
+              size="icon"
+              className="h-6 w-6"
+              onClick={() =>
+                dispatch({
+                  type: "UPDATE_QUANTITY",
+                  payload: { ...item, productId: item.product.id, quantity: item.quantity - 1 },
+                })
+              }
+            >
+              <Minus className="h-3 w-3" />
+            </Button>
+            <span className="text-xs font-bold w-4 text-center">{item.quantity}</span>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-6 w-6"
+               onClick={() =>
+                dispatch({
+                  type: "UPDATE_QUANTITY",
+                  payload: { ...item, productId: item.product.id, quantity: item.quantity + 1 },
+                })
+              }
+            >
+              <Plus className="h-3 w-3" />
+            </Button>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-muted-foreground hover:text-destructive h-6 w-6"
+            onClick={() =>
+              dispatch({
+                type: "REMOVE_ITEM",
+                payload: { ...item, productId: item.product.id },
+              })
+            }
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>                      
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function CartSheet() {
-  const { state, dispatch } = useCart();
+  const { state } = useCart();
   const itemCount = state.items.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = state.items.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
@@ -46,69 +160,9 @@ export function CartSheet() {
         {itemCount > 0 ? (
           <>
             <ScrollArea className="flex-grow pr-4">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-6">
                 {state.items.map((item) => (
-                  <div key={`${item.product.id}-${item.size}-${item.color}`} className="flex gap-4">
-                    <Image
-                      src={item.product.image.imageUrl}
-                      alt={item.product.name}
-                      width={80}
-                      height={80}
-                      className="rounded-md object-cover"
-                    />
-                    <div className="flex flex-col justify-between text-sm flex-grow">
-                      <div>
-                        <h3 className="font-medium">{item.product.name}</h3>
-                        <p className="text-muted-foreground">
-                          {item.size} / {item.color}
-                        </p>
-                        <p className="font-semibold">{formatRupiah(item.product.price)}</p>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                           <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-6 w-6"
-                            onClick={() =>
-                              dispatch({
-                                type: "UPDATE_QUANTITY",
-                                payload: { ...item, productId: item.product.id, quantity: item.quantity - 1 },
-                              })
-                            }
-                          >
-                            <Minus className="h-3 w-3" />
-                          </Button>
-                          <span>{item.quantity}</span>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-6 w-6"
-                             onClick={() =>
-                              dispatch({
-                                type: "UPDATE_QUANTITY",
-                                payload: { ...item, productId: item.product.id, quantity: item.quantity + 1 },
-                              })
-                            }
-                          >
-                            <Plus className="h-3 w-3" />
-                          </Button>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-muted-foreground hover:text-destructive h-6 w-6"
-                          onClick={() =>
-                            dispatch({
-                              type: "REMOVE_ITEM",
-                              payload: { ...item, productId: item.product.id },
-                            })
-                          }
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>                      </div>
-                    </div>
-                  </div>
+                  <CartItem key={`${item.product.id}-${item.size}-${item.color}`} item={item} />
                 ))}
               </div>
             </ScrollArea>
@@ -134,11 +188,11 @@ export function CartSheet() {
             <p className="mt-2 text-sm text-muted-foreground">
               Looks like you haven't added anything to your cart yet.
             </p>
-            <SheetTrigger asChild>
+            <SheetClose asChild>
                 <Button asChild variant="link" className="mt-4 text-primary">
                     <Link href="/shop">Start Shopping</Link>
                 </Button>
-            </SheetTrigger>
+            </SheetClose>
           </div>
         )}
       </SheetContent>

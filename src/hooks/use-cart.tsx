@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Product } from '@/lib/data';
@@ -18,6 +19,7 @@ type CartAction =
   | { type: 'ADD_ITEM'; payload: CartItem }
   | { type: 'REMOVE_ITEM'; payload: { productId: string; size: string; color: string } }
   | { type: 'UPDATE_QUANTITY'; payload: { productId: string; size: string; color: string; quantity: number } }
+  | { type: 'UPDATE_VARIANT'; payload: { oldSize: string; oldColor: string; newItem: CartItem } }
   | { type: 'CLEAR_CART' }
   | { type: 'REHYDRATE_STATE'; payload: CartState };
 
@@ -75,6 +77,42 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             : item
         ),
       };
+    }
+    case 'UPDATE_VARIANT': {
+        const { oldSize, oldColor, newItem } = action.payload;
+
+        // First, remove the old item
+        const itemsWithoutOld = state.items.filter(item => 
+            !(item.product.id === newItem.product.id && item.size === oldSize && item.color === oldColor)
+        );
+
+        // Then, add the new item (which will merge if it already exists)
+        const existingItemIndex = itemsWithoutOld.findIndex(
+            (item) =>
+              item.product.id === newItem.product.id &&
+              item.size === newItem.size &&
+              item.color === newItem.color
+        );
+
+        if (existingItemIndex > -1) {
+            const finalItems = [...itemsWithoutOld];
+            finalItems[existingItemIndex].quantity += newItem.quantity;
+            return { ...state, items: finalItems };
+        }
+
+        // We need to find the original item's index to insert the new item at the same position
+        const originalIndex = state.items.findIndex(item => 
+            item.product.id === newItem.product.id && item.size === oldSize && item.color === oldColor
+        );
+        
+        const finalItems = [...itemsWithoutOld];
+        if (originalIndex !== -1) {
+            finalItems.splice(originalIndex, 0, newItem);
+        } else {
+            finalItems.push(newItem);
+        }
+        
+        return { ...state, items: finalItems };
     }
     case 'CLEAR_CART':
       return { ...state, items: [] };
