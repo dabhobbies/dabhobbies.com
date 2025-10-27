@@ -32,7 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
               data-ai-hint={product.image.imageHint}
             />
           </Link>
-          <Badge variant="default" className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground border-none text-xs px-2 py-1">
+          <Badge variant="default" className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground border-none text-[9px] md:text-[10px] px-1.5 py-0.5">
             {product.category}
           </Badge>
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%]">
