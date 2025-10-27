@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useCart } from "@/hooks/use-cart.tsx";
@@ -9,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Plus, Minus, Trash2 } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -190,17 +191,29 @@ Mohon konfirmasi pesanannya. Terima kasih!
 
           <div className="glass-card p-6 h-fit sticky top-24">
             <h2 className="text-2xl font-semibold mb-4 font-headline uppercase">Ringkasan Pesanan</h2>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {state.items.map(item => (
-                <div key={`${item.product.id}-${item.size}-${item.color}`} className="flex justify-between items-center text-sm">
-                  <div className="flex items-center gap-3">
-                      <Image src={item.product.image.imageUrl} alt={item.product.name} width={50} height={50} className="rounded-md" />
-                      <div>
-                          <p className="font-medium">{item.product.name} <span className="text-muted-foreground">x{item.quantity}</span></p>
-                          <p className="text-muted-foreground text-xs">{item.size} / {item.color}</p>
+                <div key={`${item.product.id}-${item.size}-${item.color}`} className="flex gap-4">
+                  <Image src={item.product.image.imageUrl} alt={item.product.name} width={64} height={64} className="rounded-md" />
+                  <div className="flex flex-col text-sm flex-grow">
+                      <p className="font-medium line-clamp-1">{item.product.name}</p>
+                      <p className="text-muted-foreground text-xs">{item.size} / {item.color}</p>
+                      <p className="font-semibold text-sm mt-1">{formatRupiah(item.product.price)}</p>
+                      <div className="flex items-center justify-between mt-2">
+                          <div className="flex items-center gap-2">
+                              <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => dispatch({ type: "UPDATE_QUANTITY", payload: { ...item, productId: item.product.id, quantity: item.quantity - 1 } })}>
+                                  <Minus className="h-3 w-3" />
+                              </Button>
+                              <span className="font-bold text-xs w-4 text-center">{item.quantity}</span>
+                              <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => dispatch({ type: "UPDATE_QUANTITY", payload: { ...item, productId: item.product.id, quantity: item.quantity + 1 } })}>
+                                  <Plus className="h-3 w-3" />
+                              </Button>
+                          </div>
+                          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive h-6 w-6" onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { ...item, productId: item.product.id } })}>
+                              <Trash2 className="h-4 w-4" />
+                          </Button>
                       </div>
                   </div>
-                  <p>{formatRupiah(item.product.price * item.quantity)}</p>
                 </div>
               ))}
             </div>
