@@ -58,10 +58,10 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
         <div className="p-4">
-          <Link href={`/shop/${product.slug}`}>
-            <h3 className="font-semibold text-lg uppercase h-14 line-clamp-2">{product.name}</h3>
-          </Link>
           <p className="text-muted-foreground text-sm">{product.category}</p>
+          <Link href={`/shop/${product.slug}`}>
+            <h3 className="font-semibold text-lg uppercase h-14 line-clamp-2 mt-1">{product.name}</h3>
+          </Link>
           <p className="font-bold text-lg mt-2">{formatRupiah(product.price)}</p>
         </div>
       </div>
