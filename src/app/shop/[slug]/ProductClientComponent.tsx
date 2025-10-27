@@ -175,6 +175,15 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
           </div>
         </div>
       </div>
+
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold mb-4 uppercase">Deskripsi Produk</h2>
+        <div className="prose prose-invert max-w-none text-muted-foreground">
+          {/* Using dangerouslySetInnerHTML to allow for potential HTML in the future, or just use a <p> tag if it's plain text. */}
+          {/* For safety, ensure longDescription is sanitized if it can contain user-generated HTML */}
+          <p>{product.longDescription}</p>
+        </div>
+      </div>
       
       {/* Related Products */}
       <div className="mt-24">
@@ -190,5 +199,3 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
     </>
   );
 }
-
-    
