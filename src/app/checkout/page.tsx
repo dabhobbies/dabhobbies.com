@@ -114,7 +114,7 @@ ${paymentMethod.toUpperCase()}
 Mohon konfirmasi pesanannya. Terima kasih!
     `;
 
-    const whatsappNumber = "6281234567890"; // Ganti dengan nomor WhatsApp Anda
+    const whatsappNumber = "6281386865559"; // Ganti dengan nomor WhatsApp Anda
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message.trim())}`;
     
     // Buka di tab baru
