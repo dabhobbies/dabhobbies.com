@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { MessageCircle, Plus, Minus, Trash2 } from "lucide-react";
+import { MessageCircle, Plus, Minus, Trash2, Weight } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -151,7 +151,15 @@ export default function CheckoutPage() {
     (acc, item) => acc + item.product.price * item.quantity,
     0
   );
-  const shipping = 50000;
+  
+  const totalWeight = state.items.reduce(
+    (acc, item) => acc + item.product.weight * item.quantity,
+    0
+  );
+
+  const shippingRatePerKg = 25000;
+  const shipping = Math.ceil(totalWeight) * shippingRatePerKg;
+  
   const total = subtotal + shipping;
 
   const handlePlaceOrder = (e: React.FormEvent<HTMLFormElement>) => {
@@ -168,6 +176,7 @@ Halo Dab Hobbies, saya mau pesan:
 ${itemsDetails}
 
 *Subtotal:* ${formatRupiah(subtotal)}
+*Total Berat:* ${totalWeight.toFixed(2)} kg
 *Pengiriman:* ${formatRupiah(shipping)}
 *Total:* *${formatRupiah(total)}*
 
@@ -269,6 +278,10 @@ Mohon konfirmasi pesanannya. Terima kasih!
                 <p>{formatRupiah(subtotal)}</p>
               </div>
               <div className="flex justify-between">
+                <p className="text-muted-foreground flex items-center gap-1"><Weight className="h-3 w-3" /> Total Berat</p>
+                <p>{totalWeight.toFixed(2)} kg</p>
+              </div>
+              <div className="flex justify-between">
                 <p className="text-muted-foreground">Pengiriman</p>
                 <p>{formatRupiah(shipping)}</p>
               </div>
@@ -284,3 +297,5 @@ Mohon konfirmasi pesanannya. Terima kasih!
     </>
   );
 }
+
+    
