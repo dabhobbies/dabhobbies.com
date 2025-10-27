@@ -9,6 +9,8 @@ import Link from "next/link";
 export default function Home() {
   const heroImage = PlaceHolderImages.find((p) => p.id === "hero-image")!;
   const featuredProducts = products.slice(0, 4);
+  const uniqueCategories = products.filter((p, i, a) => a.findIndex(t => t.category === p.category) === i).slice(0,4)
+  const uniqueBrands = products.filter((p, i, a) => a.findIndex(t => t.brand === p.brand) === i).slice(0,4)
 
   return (
     <div>
@@ -42,7 +44,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">
             Featured Products
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -60,13 +62,31 @@ export default function Home() {
           <div className="container">
               <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Category</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-                  {products.filter((p, i, a) => a.findIndex(t => t.category === p.category) === i).slice(0,4).map(p => (
+                  {uniqueCategories.map(p => (
                       <Link href={`/shop/category/${p.category.toLowerCase()}`} key={p.category} className="group block text-center">
                           <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
                               <Image src={p.image.imageUrl} alt={p.category} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={p.image.imageHint}/>
                               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                           </div>
                           <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{p.category}</h3>
+                      </Link>
+                  ))}
+              </div>
+          </div>
+      </section>
+
+      {/* Brands Section */}
+      <section className="py-16 md:py-24">
+          <div className="container">
+              <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Brand</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                  {uniqueBrands.map(p => (
+                      <Link href={`/shop/brand/${p.brand.toLowerCase()}`} key={p.brand} className="group block text-center">
+                           <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
+                              <Image src={p.image.imageUrl} alt={p.brand} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={p.image.imageHint}/>
+                              <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
+                          </div>
+                          <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{p.brand}</h3>
                       </Link>
                   ))}
               </div>

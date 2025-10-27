@@ -20,6 +20,7 @@ import { formatRupiah } from "@/lib/utils";
 import { useDebounce } from "@/hooks/use-debounce";
 
 const allCategories = [...new Set(products.map((p) => p.category))];
+const allBrands = [...new Set(products.map((p) => p.brand))];
 const allSizes = [...new Set(products.flatMap((p) => p.sizes))];
 const allColors = [...new Set(products.flatMap((p) => p.colors))];
 const maxPrice = Math.max(...products.map(p => p.price));
@@ -30,6 +31,7 @@ export default function AllProductsPage() {
   const [sortOrder, setSortOrder] = useState("relevance");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, maxPrice]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -42,6 +44,14 @@ export default function AllProductsPage() {
       prev.includes(category)
         ? prev.filter((c) => c !== category)
         : [...prev, category]
+    );
+  };
+
+  const handleBrandChange = (brand: string) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand)
+        ? prev.filter((b) => b !== brand)
+        : [...prev, brand]
     );
   };
   
@@ -66,6 +76,7 @@ export default function AllProductsPage() {
     setSortOrder("relevance");
     setPriceRange([0, maxPrice]);
     setSelectedCategories([]);
+    setSelectedBrands([]);
     setSelectedRating(0);
     setSelectedSizes([]);
     setSelectedColors([]);
@@ -79,6 +90,9 @@ export default function AllProductsPage() {
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.includes(product.category);
+      const matchesBrand =
+        selectedBrands.length === 0 ||
+        selectedBrands.includes(product.brand);
       const matchesPrice =
         product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesRating = product.rating >= selectedRating;
@@ -87,7 +101,7 @@ export default function AllProductsPage() {
       const matchesColor =
         selectedColors.length === 0 || product.colors.some(c => selectedColors.includes(c));
 
-      return matchesSearch && matchesCategory && matchesPrice && matchesRating && matchesSize && matchesColor;
+      return matchesSearch && matchesCategory && matchesBrand && matchesPrice && matchesRating && matchesSize && matchesColor;
     });
 
     switch (sortOrder) {
@@ -106,7 +120,7 @@ export default function AllProductsPage() {
     }
 
     return filtered;
-  }, [debouncedSearchTerm, selectedCategories, priceRange, selectedRating, selectedSizes, selectedColors, sortOrder]);
+  }, [debouncedSearchTerm, selectedCategories, selectedBrands, priceRange, selectedRating, selectedSizes, selectedColors, sortOrder]);
   
   const Filters = () => (
     <div className="space-y-6">
@@ -119,7 +133,7 @@ export default function AllProductsPage() {
             className="bg-transparent"
         />
       </div>
-      <Accordion type="multiple" defaultValue={['category', 'price', 'rating']} className="w-full">
+      <Accordion type="multiple" defaultValue={['category', 'brand', 'price', 'rating']} className="w-full">
         <AccordionItem value="category">
           <AccordionTrigger className="font-semibold uppercase">Category</AccordionTrigger>
           <AccordionContent className="space-y-2 pt-2">
@@ -132,6 +146,23 @@ export default function AllProductsPage() {
                 />
                 <label htmlFor={`cat-${category}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   {category}
+                </label>
+              </div>
+            ))}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="brand">
+          <AccordionTrigger className="font-semibold uppercase">Brand</AccordionTrigger>
+          <AccordionContent className="space-y-2 pt-2">
+            {allBrands.map((brand) => (
+              <div key={brand} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`brand-${brand}`}
+                  checked={selectedBrands.includes(brand)}
+                  onCheckedChange={() => handleBrandChange(brand)}
+                />
+                <label htmlFor={`brand-${brand}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  {brand}
                 </label>
               </div>
             ))}

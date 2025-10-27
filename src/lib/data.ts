@@ -4,6 +4,7 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
+  brand: string;
   category: 'Helmets' | 'Jackets' | 'Gloves' | 'Boots' | 'Pants' | 'Suits';
   description: string;
   details: string[];
@@ -20,6 +21,7 @@ export const products: Product[] = [
     id: 'prod_1',
     slug: 'urban-explorer-helmet',
     name: 'Urban Explorer Helmet',
+    brand: 'Aether',
     category: 'Helmets',
     description: 'A sleek and modern full-face helmet designed for the urban rider. Offers superior protection and comfort without compromising on style.',
     details: [
@@ -39,6 +41,7 @@ export const products: Product[] = [
     id: 'prod_2',
     slug: 'classic-leather-jacket',
     name: 'Classic Leather Jacket',
+    brand: 'Dainese',
     category: 'Jackets',
     description: 'Timeless style meets modern protection. This premium leather jacket is perfect for any rider looking for a classic look with CE-rated armor.',
     details: [
@@ -58,6 +61,7 @@ export const products: Product[] = [
     id: 'prod_3',
     slug: 'apex-pro-gloves',
     name: 'Apex Pro Gloves',
+    brand: 'Alpinestars',
     category: 'Gloves',
     description: 'Get a grip with the Apex Pro gloves. Featuring hard-knuckle protection and a pre-curved design for maximum comfort and control.',
     details: [
@@ -77,6 +81,7 @@ export const products: Product[] = [
     id: 'prod_4',
     slug: 'touring-tech-boots',
     name: 'Touring-Tech Boots',
+    brand: 'Sidi',
     category: 'Boots',
     description: 'Built for the long haul, these waterproof touring boots provide all-day comfort and protection against the elements and the road.',
     details: [
@@ -96,6 +101,7 @@ export const products: Product[] = [
     id: 'prod_5',
     slug: 'retro-cruiser-helmet',
     name: 'Retro Cruiser Helmet',
+    brand: 'Vanguard',
     category: 'Helmets',
     description: 'A vintage-inspired open-face helmet for the modern classic enthusiast. Lightweight and comfortable for city cruising.',
     details: [
@@ -115,6 +121,7 @@ export const products: Product[] = [
     id: 'prod_6',
     slug: 'adventure-touring-jacket',
     name: 'Adventure Touring Jacket',
+    brand: 'Rev\'It',
     category: 'Jackets',
     description: 'The ultimate all-weather, all-terrain jacket. With a removable thermal liner and waterproof shell, you\'re ready for any adventure.',
     details: [
@@ -134,6 +141,7 @@ export const products: Product[] = [
     id: 'prod_7',
     slug: 'armored-riding-jeans',
     name: 'Armored Riding Jeans',
+    brand: 'Klim',
     category: 'Pants',
     description: 'Look casual, ride protected. These riding jeans are reinforced with aramid fibers and come with removable knee and hip armor.',
     details: [
@@ -153,6 +161,7 @@ export const products: Product[] = [
     id: 'prod_8',
     slug: 'track-day-racing-suit',
     name: 'Track Day Racing Suit',
+    brand: 'Alpinestars',
     category: 'Suits',
     description: 'A one-piece leather suit for the aspiring track enthusiast. Aerodynamically designed with top-tier protection for high-speed performance.',
     details: [

@@ -42,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           </div>
           <div className="p-4">
-            <p className="text-muted-foreground text-sm">{product.category}</p>
+            <p className="text-muted-foreground text-sm">{product.brand} - {product.category}</p>
             <Link href={`/shop/${product.slug}`}>
               <h3 className="font-semibold uppercase h-14 line-clamp-2 mt-1">{product.name}</h3>
             </Link>
