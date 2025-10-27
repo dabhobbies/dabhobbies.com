@@ -32,7 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
               data-ai-hint={product.image.imageHint}
             />
           </Link>
-          <Badge variant="default" className="absolute top-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground border-none">
+          <Badge variant="default" className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground border-none text-xs px-2 py-1">
             {product.category}
           </Badge>
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%]">
@@ -46,9 +46,11 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
         <div className="p-4 flex flex-col flex-grow">
           <p className="text-muted-foreground text-sm">{product.brand}</p>
-          <Link href={`/shop/${product.slug}`} className="flex-grow">
-            <h3 className="font-semibold uppercase line-clamp-2 mt-1">{product.name}</h3>
-          </Link>
+          <div className="flex-grow min-h-[3rem]">
+            <Link href={`/shop/${product.slug}`}>
+              <h3 className="font-semibold uppercase line-clamp-2 mt-1">{product.name}</h3>
+            </Link>
+          </div>
           <p className="font-bold text-base mt-auto pt-2">{formatRupiah(product.price)}</p>
         </div>
       </div>
