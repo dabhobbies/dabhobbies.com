@@ -5,6 +5,7 @@ import {deskTool} from 'sanity/desk'
 import {schemaTypes} from './src/sanity/schemas'
 
 export default defineConfig({
+  basePath: '/admin', // <--- Add this line
   name: 'default',
   title: 'Dab Hobbies',
 
