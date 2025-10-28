@@ -9,7 +9,7 @@ export default defineConfig({
   name: 'default',
   title: 'Dab Hobbies',
 
-  projectId: 's7p5p11y',
+  projectId: 'ko6ixh1i',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
