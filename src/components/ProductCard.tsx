@@ -35,12 +35,17 @@ export function ProductCard({ product }: ProductCardProps) {
           <Badge variant="default" className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground border-none text-[9px] md:text-[10px] px-1.5 py-0.5">
             {product.category}
           </Badge>
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%]">
+          <div className="absolute bottom-3 right-3">
             <Button
-              className="w-full bg-background/70 backdrop-blur-sm text-foreground hover:bg-background/90 border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              onClick={() => setIsDialogOpen(true)}
+              size="icon"
+              className="bg-background/70 backdrop-blur-sm text-foreground hover:bg-background/90 border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDialogOpen(true);
+              }}
             >
-              <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+              <ShoppingCart className="h-4 w-4" />
+              <span className="sr-only">Add to Cart</span>
             </Button>
           </div>
         </div>
