@@ -24,7 +24,7 @@ export default function AboutUsPage() {
                 data-ai-hint={aboutImage.imageHint}
             />
         )}
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 p-8 max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase drop-shadow-lg">
             Tentang Dab Hobbies
