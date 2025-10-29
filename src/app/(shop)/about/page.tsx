@@ -19,7 +19,7 @@ export default function AboutUsPage() {
                 src={aboutImage.imageUrl}
                 alt={aboutImage.description}
                 fill
-                className="object-cover"
+                className="object-cover -z-5"
                 priority
                 data-ai-hint={aboutImage.imageHint}
             />
