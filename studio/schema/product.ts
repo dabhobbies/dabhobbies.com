@@ -33,11 +33,8 @@ export default {
     {
         name: 'category',
         title: 'Category',
-        type: 'string',
-        options: {
-            list: ['Helmets', 'Jackets', 'Gloves', 'Boots', 'Pants', 'Suits'],
-            layout: 'radio'
-        }
+        type: 'reference',
+        to: [{type: 'category'}]
     },
     {
         name: 'description',
