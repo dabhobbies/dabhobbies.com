@@ -28,7 +28,8 @@ export default {
     {
       name: 'brand',
       title: 'Brand',
-      type: 'string',
+      type: 'reference',
+      to: [{type: 'productBrand'}]
     },
     {
         name: 'category',

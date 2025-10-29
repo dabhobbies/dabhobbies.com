@@ -20,10 +20,11 @@ const customStructure = (S: any) =>
             .items([
               S.documentTypeListItem('product').title('All Products'),
               S.documentTypeListItem('productCategory').title('Product Categories'),
+              S.documentTypeListItem('productBrand').title('Product Brands'),
             ])
         ),
       ...S.documentTypeListItems().filter(
-        (listItem: any) => !['product', 'productCategory'].includes(listItem.getId())
+        (listItem: any) => !['product', 'productCategory', 'productBrand'].includes(listItem.getId())
       ),
     ])
 
