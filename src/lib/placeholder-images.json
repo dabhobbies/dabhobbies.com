@@ -9,7 +9,7 @@
     {
       "id": "about-us-hero",
       "description": "A person working on a motorcycle in a stylish workshop.",
-      "imageUrl": "https://images.unsplash.com/photo-1616423699307-5e654a045a55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb3RvcmN5Y2xlJTIwd29ya3Nob3B8ZW58MHx8fHwxNzYxNjExMzU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPj_aQGLXTWUvXc4uG1wsG7n4-Oc3AYFu-GisIw=s1360-w1360-h1020",
       "imageHint": "motorcycle workshop"
     },
     {
@@ -57,13 +57,13 @@
     {
       "id": "product-pants-1",
       "description": "Reinforced riding jeans with kevlar lining.",
-      "imageUrl": "https://images.unsplash.com/photo-1714056548974-ed3a098997d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyaWRpbmclMjBqZWFuc3xlbnwwfHx8fDE3NjEyODM3NjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1714056548974-ed3a098997d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyaWRpbmclMjBqZWFuc3xlbnwwfHx8fDE3NjEyODM3NjB8MA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "riding jeans"
     },
     {
       "id": "product-suit-1",
       "description": "A full-body leather racing suit.",
-      "imageUrl": "https://images.unsplash.com/photo-1758739956760-c51ceafe0fcd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyYWNpbmclMjBzdWl0fGVufDB8fHx8MTc2MTI4Mzc2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1758739956760-c51ceafe0fcd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyYWNpbmclMjBzdWl0fGVufDB8fHx8MTc2MTI4Mzc2MHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "racing suit"
     }
   ]
