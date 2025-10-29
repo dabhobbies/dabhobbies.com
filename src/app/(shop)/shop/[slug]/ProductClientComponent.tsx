@@ -19,13 +19,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Star, Minus, Plus, ShoppingCart, ShieldCheck, Wrench, Award, Sparkles, User, Scale } from "lucide-react";
+import { Star, Minus, Plus, ShoppingCart, ShieldCheck, Wrench, Award, Sparkles, User, Scale, MessageSquare, Briefcase } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/hooks/use-cart.tsx";
 import { useToast } from "@/hooks/use-toast";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/data";
 import { formatRupiah } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const DetailSection = ({ title, icon, items }: { title: string, icon: React.ReactNode, items: string[] | null | undefined }) => {
     if (!items || items.length === 0) return null;
@@ -49,6 +50,7 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
 
   const { dispatch } = useCart();
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleAddToCart = () => {
     dispatch({
@@ -59,6 +61,14 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
       title: "Added to cart",
       description: `${quantity} x ${product.name} has been added to your cart.`,
     });
+  };
+
+  const handleBuyNow = () => {
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: { product, quantity, size: selectedSize, color: selectedColor },
+    });
+    router.push('/checkout');
   };
 
   return (
@@ -165,7 +175,7 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Button variant="outline" size="icon" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
                 <Minus className="h-4 w-4" />
@@ -192,7 +202,7 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
       </div>
       
       {/* Related Products */}
-      <div className="mt-24">
+      <div className="mt-24 mb-24 md:mb-0">
         <h2 className="text-3xl font-bold tracking-tight text-center mb-12">
           You Might Also Like
         </h2>
@@ -202,8 +212,23 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
             ))}
         </div>
       </div>
+
+      {/* Mobile Floating Action Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-xl border-t border-border p-3 z-40">
+        <div className="container mx-auto flex items-center gap-3">
+          <Button variant="outline" size="icon" asChild>
+            <a href="https://wa.me/6281386865559" target="_blank" rel="noopener noreferrer">
+              <MessageSquare className="h-5 w-5" />
+            </a>
+          </Button>
+          <Button variant="outline" className="flex-1" onClick={handleAddToCart}>
+            <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
+          </Button>
+          <Button className="flex-1 bg-primary text-primary-foreground" onClick={handleBuyNow}>
+            Buy Now
+          </Button>
+        </div>
+      </div>
     </>
   );
 }
-
-    

@@ -18,6 +18,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
   const breadcrumbItems = [
       { label: "Shop", href: "/shop" },
+      { label: product.category, href: `/shop/category/${product.category.toLowerCase()}`},
       { label: product.name, href: `/shop/${product.slug}` }
   ];
 
