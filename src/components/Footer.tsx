@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Github, Twitter, Facebook, Send } from "lucide-react";
 import Image from "next/image";
@@ -11,7 +12,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           
           <div className="md:col-span-3">
-             <Link href="/" className="inline-block mb-4">
+             <Link href="/" className="inline-block mb-4" prefetch={true}>
                 <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={140} height={45} className="object-contain"/>
              </Link>
             <p className="text-sm text-muted-foreground mt-2">Your one-stop shop for premium motorcycle apparel.</p>
@@ -20,19 +21,19 @@ export function Footer() {
           <div className="md:col-span-2">
             <h4 className="font-headline uppercase font-semibold mb-4">Shop</h4>
             <ul className="space-y-2">
-              <li><Link href="/shop/category/helmets" className="text-sm text-muted-foreground hover:text-primary">Helmets</Link></li>
-              <li><Link href="/shop/category/jackets" className="text-sm text-muted-foreground hover:text-primary">Jackets</Link></li>
-              <li><Link href="/shop/category/gloves" className="text-sm text-muted-foreground hover:text-primary">Gloves</Link></li>
-              <li><Link href="/shop/category/boots" className="text-sm text-muted-foreground hover:text-primary">Boots</Link></li>
+              <li><Link href="/shop/category/helmets" className="text-sm text-muted-foreground hover:text-primary" prefetch={true}>Helmets</Link></li>
+              <li><Link href="/shop/category/jackets" className="text-sm text-muted-foreground hover:text-primary" prefetch={true}>Jackets</Link></li>
+              <li><Link href="/shop/category/gloves" className="text-sm text-muted-foreground hover:text-primary" prefetch={true}>Gloves</Link></li>
+              <li><Link href="/shop/category/boots" className="text-sm text-muted-foreground hover:text-primary" prefetch={true}>Boots</Link></li>
             </ul>
           </div>
           
           <div className="md:col-span-2">
             <h4 className="font-headline uppercase font-semibold mb-4">Support</h4>
             <ul className="space-y-2">
-              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary">About Us</Link></li>
-              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">Contact Us</Link></li>
-              <li><Link href="/orders/12345" className="text-sm text-muted-foreground hover:text-primary">Track Order</Link></li>
+              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary" prefetch={true}>About Us</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary" prefetch={true}>Contact Us</Link></li>
+              <li><Link href="/orders/12345" className="text-sm text-muted-foreground hover:text-primary" prefetch={true}>Track Order</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">FAQ</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary">Returns</Link></li>
             </ul>

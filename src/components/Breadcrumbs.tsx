@@ -18,7 +18,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
             <nav aria-label="Breadcrumb">
                 <ol className="flex items-center gap-1.5 h-14 text-sm text-muted-foreground whitespace-nowrap overflow-x-auto">
                     <li>
-                    <Link href="/" className="hover:text-primary transition-colors flex-shrink-0">
+                    <Link href="/" className="hover:text-primary transition-colors flex-shrink-0" prefetch={true}>
                         Home
                     </Link>
                     </li>
@@ -28,7 +28,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
                         {index === items.length - 1 ? (
                         <span className="font-semibold text-foreground truncate">{item.label}</span>
                         ) : (
-                        <Link href={item.href} className="hover:text-primary transition-colors flex-shrink-0">
+                        <Link href={item.href} className="hover:text-primary transition-colors flex-shrink-0" prefetch={true}>
                             {item.label}
                         </Link>
                         )}

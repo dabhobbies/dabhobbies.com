@@ -22,7 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <>
       <div className="glass-card overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col">
         <div className="relative group">
-          <Link href={`/shop/${product.slug}`}>
+          <Link href={`/shop/${product.slug}`} prefetch={true}>
             <Image
               src={product.image.imageUrl}
               alt={product.name}
@@ -39,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="p-4 flex flex-col flex-grow">
           <p className="text-muted-foreground text-sm">{product.brand}</p>
           <div className="flex-grow min-h-[3rem]">
-            <Link href={`/shop/${product.slug}`}>
+            <Link href={`/shop/${product.slug}`} prefetch={true}>
               <h3 className="font-semibold uppercase line-clamp-2 mt-1">{product.name}</h3>
             </Link>
           </div>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -27,7 +28,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/50 backdrop-blur-xl">
       <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center gap-2">
+        <Link href="/" className="mr-6 flex items-center gap-2" prefetch={true}>
           <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={120} height={40} className="object-contain" />
         </Link>
 
@@ -36,6 +37,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
+              prefetch={true}
               className="font-headline uppercase text-foreground/60 transition-colors hover:text-foreground"
             >
               {link.label}
@@ -67,6 +69,7 @@ export function Header() {
                   <DropdownMenuItem key={link.href} asChild>
                     <Link
                       href={link.href}
+                      prefetch={true}
                       className="font-headline uppercase"
                     >
                       {link.label}
