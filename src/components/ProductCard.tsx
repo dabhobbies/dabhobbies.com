@@ -35,10 +35,20 @@ export function ProductCard({ product }: ProductCardProps) {
           <Badge variant="default" className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground border-none text-[9px] md:text-[10px] px-1.5 py-0.5">
             {product.category}
           </Badge>
-          <div className="absolute bottom-3 right-3">
+        </div>
+        <div className="p-4 flex flex-col flex-grow">
+          <p className="text-muted-foreground text-sm">{product.brand}</p>
+          <div className="flex-grow min-h-[3rem]">
+            <Link href={`/shop/${product.slug}`}>
+              <h3 className="font-semibold uppercase line-clamp-2 mt-1">{product.name}</h3>
+            </Link>
+          </div>
+          <div className="flex justify-between items-center mt-auto pt-2">
+            <p className="font-bold text-base">{formatRupiah(product.price)}</p>
             <Button
               size="icon"
-              className="bg-background/70 backdrop-blur-sm text-foreground hover:bg-background/90 border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              variant="outline"
+              className="bg-transparent hover:bg-primary/20"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsDialogOpen(true);
@@ -48,15 +58,6 @@ export function ProductCard({ product }: ProductCardProps) {
               <span className="sr-only">Add to Cart</span>
             </Button>
           </div>
-        </div>
-        <div className="p-4 flex flex-col flex-grow">
-          <p className="text-muted-foreground text-sm">{product.brand}</p>
-          <div className="flex-grow min-h-[3rem]">
-            <Link href={`/shop/${product.slug}`}>
-              <h3 className="font-semibold uppercase line-clamp-2 mt-1">{product.name}</h3>
-            </Link>
-          </div>
-          <p className="font-bold text-base mt-auto pt-2">{formatRupiah(product.price)}</p>
         </div>
       </div>
       <QuickAddDialog
