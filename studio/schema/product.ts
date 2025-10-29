@@ -8,7 +8,11 @@ export default {
       name: 'name',
       title: 'Name',
       type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: any) => [
+        Rule.required(),
+        Rule.min(10).warning('Product name should be at least 10 characters long.'),
+        Rule.max(80).warning('For better SEO, keep the product name under 80 characters.'),
+      ],
     },
     {
       name: 'slug',
