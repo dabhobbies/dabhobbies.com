@@ -11,7 +11,16 @@ export default function AboutUsPage() {
 
   return (
     <div>
-        <Breadcrumbs items={[{ label: "About", href: "/about" }]} />
+      <div className="fixed inset-0 -z-10">
+        <Image 
+          src="https://www.transparenttextures.com/patterns/dark-denim.png"
+          alt="Background texture"
+          fill
+          className="object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-[#0a0a0a] to-background opacity-90"/>
+      </div>
+      <Breadcrumbs items={[{ label: "About", href: "/about" }]} />
       {/* Hero Section */}
       <section className="relative h-[50vh] w-full flex items-center justify-center text-center text-white">
         {aboutImage && (
@@ -19,7 +28,7 @@ export default function AboutUsPage() {
                 src={aboutImage.imageUrl}
                 alt={aboutImage.description}
                 fill
-                className="object-cover -z-5"
+                className="object-cover"
                 priority
                 data-ai-hint={aboutImage.imageHint}
             />
