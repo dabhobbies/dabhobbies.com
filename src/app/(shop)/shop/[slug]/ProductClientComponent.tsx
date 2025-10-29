@@ -232,12 +232,12 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
       {/* Mobile Floating Action Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-xl border-t border-border p-3 z-40">
         <div className="container mx-auto flex items-center gap-3">
-          <Button variant="outline" size="icon" asChild>
+          <Button variant="secondary" size="icon" asChild>
             <a href="https://wa.me/6281386865559" target="_blank" rel="noopener noreferrer">
               <MessageSquare className="h-5 w-5" />
             </a>
           </Button>
-          <Button variant="outline" className="flex-1" onClick={() => handleOpenDialog(false)}>
+          <Button variant="secondary" className="flex-1" onClick={() => handleOpenDialog(false)}>
             <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
           </Button>
           <Button className="flex-1 bg-primary text-primary-foreground" onClick={() => handleOpenDialog(true)}>
