@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Star, Minus, Plus, ShoppingCart, ShieldCheck, Wrench, Award, Sparkles, User } from "lucide-react";
+import { Star, Minus, Plus, ShoppingCart, ShieldCheck, Wrench, Award, Sparkles, User, Scale } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/hooks/use-cart.tsx";
 import { useToast } from "@/hooks/use-toast";
@@ -126,6 +126,12 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
                     </h3>
                     <p className="text-muted-foreground pl-2">{product.gender}</p>
                 </div>
+                <div>
+                    <h3 className="font-semibold text-lg flex items-center gap-2 mb-2">
+                        <Scale className="h-5 w-5 text-primary" /> Weight
+                    </h3>
+                    <p className="text-muted-foreground pl-2">{product.weight} kg</p>
+                </div>
           </div>
 
           <Separator />
@@ -175,13 +181,22 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
           </div>
         </div>
       </div>
+
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold mb-4 uppercase">Deskripsi Produk</h2>
+        <div className="prose prose-invert max-w-none text-muted-foreground">
+          {/* Using dangerouslySetInnerHTML to allow for potential HTML in the future, or just use a <p> tag if it's plain text. */}
+          {/* For safety, ensure longDescription is sanitized if it can contain user-generated HTML */}
+          <p>{product.longDescription}</p>
+        </div>
+      </div>
       
       {/* Related Products */}
       <div className="mt-24">
         <h2 className="text-3xl font-bold tracking-tight text-center mb-12">
           You Might Also Like
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {relatedProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
