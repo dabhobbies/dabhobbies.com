@@ -1,0 +1,60 @@
+diff --git a/node_modules/@sanity/client/dist/sanityClient.d.ts b/node_modules/@sanity/client/dist/sanityClient.d.ts
+index 81a42b1..010e409 100644
+--- a/node_modules/@sanity/client/dist/sanityClient.d.ts
++++ b/node_modules/@sanity/client/dist/sanityClient.d.ts
+@@ -101,6 +101,10 @@ export interface ClientConfig {
+      * The name of the API host.
+      */
+     apiHost?: string;
++    /**
++     * Use websockets for real-time updates.
++     */
++    useWebSocket?: boolean;
+ }
+ /**
+  * @public
+diff --git a/node_modules/@sanity/client/dist/sanityClient.js b/node_modules/@sanity/client/dist/sanityClient.js
+index d3d3391..644b4df 100644
+--- a/node_modules/@sanity/client/dist/sanityClient.js
++++ b/node_modules/@sanity/client/dist/sanityClient.js
+@@ -1071,7 +1071,7 @@
+   }
+   listen(query, params = {}, options = {}) {
+     this.warnOnListen();
+-    if (this.config.useProjectHostname) {
++    if (this.config.useProjectHostname || this.config.useWebSocket === false) {
+       const err = new Error("Listening to projects with custom hostnames is not supported");
+       err.code = "CURRENT_PROJECT_NOT_SUPPORTED";
+       throw err;
+diff --git a/node_modules/@sanity/client/src/config.ts b/node_modules/@sanity/client/src/config.ts
+index e083f21..35428a2 100644
+--- a/node_modules/@sanity/client/src/config.ts
++++ b/node_modules/@sanity/client/src/config.ts
+@@ -104,6 +104,11 @@
+    * The name of the API host.
+    */
+   apiHost?: string
++
++  /**
++   * Use websockets for real-time updates.
++   */
++  useWebSocket?: boolean
+ }
+ 
+ /**
+diff --git a/node_modules/@sanity/client/src/data/listen.ts b/node_modules/@sanity/client/src/data/listen.ts
+index 920f019..d721115 100644
+--- a/node_modules/@sanity/client/src/data/listen.ts
++++ b/node_modules/@sanity/client/src/data/listen.ts
+@@ -35,7 +35,10 @@
+ 
+   // Check if the project has a custom cdn/api host, because if so,
+   // we can't listen to it
+-  if (client.config.useProjectHostname) {
++  if (
++    client.config.useProjectHostname ||
++    (client.config as {useWebSocket?: boolean}).useWebSocket === false
++  ) {
+     const err = new Error(`Listening to projects with custom hostnames is not supported`)
+     err.code = 'CURRENT_PROJECT_NOT_SUPPORTED'
+     throw err
