@@ -1,3 +1,4 @@
+
 export default {
   name: 'product',
   title: 'Product',
@@ -18,12 +19,11 @@ export default {
       },
     },
     {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      name: 'images',
+      title: 'Images',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      description: 'Upload one or more product images. The first image will be used as the featured image.'
     },
     {
       name: 'brand',
