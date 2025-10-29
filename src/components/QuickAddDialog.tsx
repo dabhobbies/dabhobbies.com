@@ -29,9 +29,10 @@ type QuickAddDialogProps = {
   product: Product;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+  onConfirm?: () => void;
 };
 
-export function QuickAddDialog({ product, isOpen, onOpenChange }: QuickAddDialogProps) {
+export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: QuickAddDialogProps) {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
@@ -49,6 +50,7 @@ export function QuickAddDialog({ product, isOpen, onOpenChange }: QuickAddDialog
       description: `${quantity} x ${product.name} (${selectedSize}, ${selectedColor}) has been added.`,
     });
     onOpenChange(false);
+    onConfirm?.();
     // Reset state for next time
     setTimeout(() => {
         setQuantity(1);

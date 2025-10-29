@@ -27,6 +27,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/data";
 import { formatRupiah } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { QuickAddDialog } from "@/components/QuickAddDialog";
 
 const DetailSection = ({ title, icon, items }: { title: string, icon: React.ReactNode, items: string[] | null | undefined }) => {
     if (!items || items.length === 0) return null;
@@ -52,6 +53,9 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
   const { toast } = useToast();
   const router = useRouter();
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [buyNowFlow, setBuyNowFlow] = useState(false);
+
   const handleAddToCart = () => {
     dispatch({
       type: 'ADD_ITEM',
@@ -70,6 +74,18 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
     });
     router.push('/checkout');
   };
+
+  const handleOpenDialog = (isBuyNow: boolean) => {
+    setBuyNowFlow(isBuyNow);
+    setIsDialogOpen(true);
+  }
+
+  const onDialogConfirm = () => {
+    if (buyNowFlow) {
+      router.push('/checkout');
+    }
+  };
+
 
   return (
     <>
@@ -221,14 +237,21 @@ export default function ProductClientComponent({ product, relatedProducts }: { p
               <MessageSquare className="h-5 w-5" />
             </a>
           </Button>
-          <Button variant="outline" className="flex-1" onClick={handleAddToCart}>
+          <Button variant="outline" className="flex-1" onClick={() => handleOpenDialog(false)}>
             <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
           </Button>
-          <Button className="flex-1 bg-primary text-primary-foreground" onClick={handleBuyNow}>
+          <Button className="flex-1 bg-primary text-primary-foreground" onClick={() => handleOpenDialog(true)}>
             Buy Now
           </Button>
         </div>
       </div>
+      
+      <QuickAddDialog
+        product={product}
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        onConfirm={onDialogConfirm}
+      />
     </>
   );
 }
