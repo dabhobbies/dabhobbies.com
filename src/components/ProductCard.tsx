@@ -48,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <Button
               size="icon"
               variant="outline"
-              className="bg-transparent hover:bg-primary/20"
+              className="bg-transparent hover:bg-primary/20 hidden md:inline-flex"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsDialogOpen(true);
