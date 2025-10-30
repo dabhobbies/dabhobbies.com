@@ -1,3 +1,4 @@
+
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
@@ -34,8 +35,8 @@ export default defineConfig({
   name: 'default',
   title: 'Dab Hobbies',
 
-  projectId: 'ko6ixh1i',
-  dataset: 'dab-g7xk2p9r1mqd_data',
+  projectId,
+  dataset,
 
   plugins: [structureTool({structure: customStructure}), visionTool()],
 
