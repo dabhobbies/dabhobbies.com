@@ -1,3 +1,4 @@
+
 {
   "name": "nextn",
   "version": "0.1.0",
@@ -9,7 +10,10 @@
     "build": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sanity:import-refs": "node extract_refs.js && sanity dataset import brands.ndjson && sanity dataset import categories.ndjson",
+    "sanity:import-products": "node prepare_sanity_import.js && sanity dataset import import.ndjson",
+    "sanity:import": "npm run sanity:import-refs && npm run sanity:import-products"
   },
   "dependencies": {
     "@genkit-ai/google-genai": "^1.20.0",
