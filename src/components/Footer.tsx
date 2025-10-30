@@ -15,7 +15,7 @@ export function Footer() {
              <Link href="/" className="inline-block mb-4" prefetch={true}>
                 <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={140} height={45} className="object-contain"/>
              </Link>
-            <p className="text-sm text-muted-foreground mt-2">Your one-stop shop for premium motorcycle apparel.</p>
+            <p className="text-sm text-muted-foreground mt-2">Lebih dari sekadar toko, kami adalah bagian dari gaya hidup Anda.</p>
           </div>
 
           <div className="md:col-span-2">

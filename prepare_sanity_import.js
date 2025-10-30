@@ -29,14 +29,29 @@ function processProductFile(filePath) {
         // 1. Add _type
         data._type = 'product';
 
-        // 2. Use slug for _id
+        // 2. Clean and use slug for _id and slug field
         if (!data.slug) {
             console.warn(`Skipping ${filePath}, no slug found.`);
             return;
         }
-        data._id = data.slug;
 
-        // 3. Ensure price is a number
+        let cleanedSlug = data.slug.replace(/^dab-hobbies-/, '');
+        const idPattern = /-(?:[0-9]{19}|[a-f0-9]{5})$/;
+        cleanedSlug = cleanedSlug.replace(idPattern, '');
+
+        data.slug = { _type: 'slug', current: cleanedSlug };
+        data._id = cleanedSlug;
+        
+        // 3. Rename 'title' to 'name'
+        if (data.title) {
+            data.name = data.title;
+            delete data.title;
+        } else {
+            console.warn(`Skipping ${filePath}, no title found to rename to name.`);
+            return;
+        }
+
+        // 4. Ensure price is a number
         if (data.price && typeof data.price === 'string') {
             const priceNum = parseInt(data.price, 10);
             if (!isNaN(priceNum)) {
@@ -47,7 +62,7 @@ function processProductFile(filePath) {
             }
         }
 
-        // 4. Create brand reference
+        // 5. Create brand reference
         if (data.brand) {
             data.brand = {
                 _type: 'reference',
@@ -55,7 +70,7 @@ function processProductFile(filePath) {
             };
         }
 
-        // 5. Create category reference
+        // 6. Create category reference
         if (data.category) {
             data.category = {
                 _type: 'reference',
@@ -63,10 +78,28 @@ function processProductFile(filePath) {
             };
         }
 
-        // 6. Remove fields that are not needed or will be handled differently
-        delete data.images;
+        // 7. Format images for asset upload
+        if (data.downloaded_images && Array.isArray(data.downloaded_images)) {
+            const productDir = path.dirname(filePath);
+            data.images = data.downloaded_images
+                .map(imagePath => {
+                    const imageName = path.basename(imagePath);
+                    const correctPath = path.join(productDir, 'images', imageName);
+                    
+                    if (fs.existsSync(correctPath)) {
+                        const absolutePath = path.resolve(correctPath);
+                        return {
+                            _type: 'image',
+                            _sanityAsset: `image@file://${absolutePath}`
+                        };
+                    }
+                    console.warn(`Image file not found: ${correctPath}`);
+                    return null;
+                })
+                .filter(Boolean); 
+        }
+        delete data.downloaded_images; 
 
-        // Append the transformed object to the .ndjson file
         fs.appendFileSync(ndjsonPath, JSON.stringify(data) + '\n');
 
     } catch (error) {
@@ -74,6 +107,6 @@ function processProductFile(filePath) {
     }
 }
 
-console.log('Starting preparation of Sanity import file...');
+console.log('Starting preparation of Sanity import file with corrected image paths...');
 processDirectory(productsDir);
 console.log(`Successfully created ${ndjsonPath}`);

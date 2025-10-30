@@ -1,0 +1,19 @@
+{"_id":"productBrand-swallow","_type":"productBrand","title":"Swallow","slug":{"_type":"slug","current":"swallow"}}
+{"_id":"productBrand-dunlop","_type":"productBrand","title":"Dunlop","slug":{"_type":"slug","current":"dunlop"}}
+{"_id":"productBrand-maxxis","_type":"productBrand","title":"Maxxis","slug":{"_type":"slug","current":"maxxis"}}
+{"_id":"productBrand-metzeler","_type":"productBrand","title":"Metzeler","slug":{"_type":"slug","current":"metzeler"}}
+{"_id":"productBrand-pirelli","_type":"productBrand","title":"Pirelli","slug":{"_type":"slug","current":"pirelli"}}
+{"_id":"productBrand-others","_type":"productBrand","title":"Others","slug":{"_type":"slug","current":"others"}}
+{"_id":"productBrand-kewig","_type":"productBrand","title":"Kewig","slug":{"_type":"slug","current":"kewig"}}
+{"_id":"productBrand-cardo","_type":"productBrand","title":"Cardo","slug":{"_type":"slug","current":"cardo"}}
+{"_id":"productBrand-future-eyes","_type":"productBrand","title":"Future Eyes","slug":{"_type":"slug","current":"future-eyes"}}
+{"_id":"productBrand-zeus","_type":"productBrand","title":"Zeus","slug":{"_type":"slug","current":"zeus"}}
+{"_id":"productBrand-osopro","_type":"productBrand","title":"OsoPro","slug":{"_type":"slug","current":"osopro"}}
+{"_id":"productCategory-tires","_type":"productCategory","title":"Tires","slug":{"_type":"slug","current":"tires"}}
+{"_id":"productCategory-others","_type":"productCategory","title":"Others","slug":{"_type":"slug","current":"others"}}
+{"_id":"productCategory-phone-holders","_type":"productCategory","title":"Phone Holders","slug":{"_type":"slug","current":"phone-holders"}}
+{"_id":"productCategory-helmets","_type":"productCategory","title":"Helmets","slug":{"_type":"slug","current":"helmets"}}
+{"_id":"productCategory-general","_type":"productCategory","title":"General","slug":{"_type":"slug","current":"general"}}
+{"_id":"productCategory-eyewear","_type":"productCategory","title":"Eyewear","slug":{"_type":"slug","current":"eyewear"}}
+{"_id":"productCategory-helmet-parts","_type":"productCategory","title":"Helmet Parts","slug":{"_type":"slug","current":"helmet-parts"}}
+{"_id":"productCategory-cargo-equipment","_type":"productCategory","title":"Cargo Equipment","slug":{"_type":"slug","current":"cargo-equipment"}}
