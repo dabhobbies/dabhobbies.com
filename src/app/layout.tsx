@@ -5,6 +5,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Dab Hobbies',
   description: 'Your one-stop shop for premium motorcycle apparel.',
+  manifest: '/manifest.json'
 };
 
 export default function RootLayout({
@@ -18,10 +19,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,700;1,700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+        <meta name="theme-color" content="#FF6600" />
       </head>
-      <body className="font-body antialiased">
-        {children}
-      </body>
-    </html>
-  );
-}
+      <body className="font
