@@ -6,7 +6,7 @@ export type Product = {
   slug: string;
   name: string;
   brand: string;
-  category: 'Helmets' | 'Jackets' | 'Gloves' | 'Boots' | 'Pants' | 'Suits';
+  category: 'Helmets' | 'Jackets' | 'Gloves' | 'Boots' | 'Pants' | 'Suits' | 'Accesories' | 'Glove' | 'Helmet' | 'Intercom' | 'Jacket' | 'Pant' | 'Protector' | 'Rainsuit' | 'Storage' | 'Vest';
   description: string;
   longDescription: string;
   price: number;
