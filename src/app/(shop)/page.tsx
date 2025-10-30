@@ -1,17 +1,47 @@
-
-
-import { products } from "@/lib/data";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { client, urlFor } from "@/sanity/client";
+import type { Product } from "@/lib/data";
 
-export default function Home() {
-  const heroImage = PlaceHolderImages.find((p) => p.id === "hero-image")!;
-  const featuredProducts = products.slice(0, 4);
-  const uniqueCategories = products.filter((p, i, a) => a.findIndex(t => t.category === p.category) === i).slice(0,4)
-  const uniqueBrands = products.filter((p, i, a) => a.findIndex(t => t.brand === p.brand) === i).slice(0,4)
+async function getFeaturedData() {
+    const featuredProductsQuery = `*[_type == "product"] | order(rating desc)[0...4]{
+      _id,
+      name,
+      slug,
+      price,
+      "images": images[].asset->url,
+      brand->{title},
+      category->{title}
+    }`;
+    const categoriesQuery = `*[_type == "productCategory"][0...4]{
+      title,
+      slug,
+      "imageUrl": image.asset->url
+    }`;
+     const brandsQuery = `*[_type == "productBrand"][0...4]{
+      title,
+      slug,
+      "imageUrl": image.asset->url
+    }`;
+
+    const [featuredProducts, categories, brands] = await Promise.all([
+      client.fetch<Product[]>(featuredProductsQuery),
+      client.fetch<{title: string, slug: {current: string}, imageUrl: string}[]>(categoriesQuery),
+      client.fetch<{title: string, slug: {current: string}, imageUrl: string}[]>(brandsQuery)
+    ]);
+    
+    return { featuredProducts, categories, brands };
+}
+
+export default async function Home() {
+  const { featuredProducts, categories, brands } = await getFeaturedData();
+  const heroImage = {
+      imageUrl: "https://images.unsplash.com/photo-1542227844-5e56c7c2687d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtb3RvcmN5Y2xlJTIwcm9hZHxlbnwwfHx8fDE3NjEyMDQ0Njh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      description: "A scenic motorcycle ride on a winding road.",
+      imageHint: "motorcycle road"
+  }
 
   return (
     <div>
@@ -56,7 +86,7 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
           <div className="text-center mt-12">
@@ -72,13 +102,13 @@ export default function Home() {
           <div className="container">
               <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Category</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-                  {uniqueCategories.map(p => (
-                      <Link href={`/shop/category/${p.category.toLowerCase()}`} key={p.category} className="group block text-center" prefetch={true}>
+                  {categories.map(c => (
+                      <Link href={`/shop/category/${c.slug.current}`} key={c.slug.current} className="group block text-center" prefetch={true}>
                           <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                              <Image src={p.image.imageUrl} alt={p.category} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={p.image.imageHint}/>
+                              <Image src={c.imageUrl} alt={c.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />
                               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                           </div>
-                          <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{p.category}</h3>
+                          <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{c.title}</h3>
                       </Link>
                   ))}
               </div>
@@ -90,13 +120,13 @@ export default function Home() {
           <div className="container">
               <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Brand</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-                  {uniqueBrands.map(p => (
-                      <Link href={`/shop/brand/${p.brand.toLowerCase()}`} key={p.brand} className="group block text-center" prefetch={true}>
+                  {brands.map(b => (
+                       <Link href={`/shop/brand/${b.slug.current}`} key={b.slug.current} className="group block text-center" prefetch={true}>
                            <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                              <Image src={p.image.imageUrl} alt={p.brand} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={p.image.imageHint}/>
+                              <Image src={b.imageUrl} alt={b.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"/>
                               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                           </div>
-                          <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{p.brand}</h3>
+                          <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{b.title}</h3>
                       </Link>
                   ))}
               </div>

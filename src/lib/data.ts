@@ -1,197 +1,35 @@
-
-import { PlaceHolderImages } from './placeholder-images';
+import type { Image } from 'sanity';
 
 export type Product = {
-  id: string;
-  slug: string;
+  _id: string;
   name: string;
-  brand: string;
-  category: 'Helmets' | 'Jackets' | 'Gloves' | 'Boots' | 'Pants' | 'Suits' | 'Accesories' | 'Glove' | 'Helmet' | 'Intercom' | 'Jacket' | 'Pant' | 'Protector' | 'Rainsuit' | 'Storage' | 'Vest';
-  description: string;
-  longDescription: string;
+  slug: {
+    current: string;
+  };
+  brand: {
+      title: string;
+      slug: {
+          current: string;
+      }
+  };
+  category: {
+      title: string;
+      slug: {
+          current: string;
+      }
+  };
+  description: any[];
   price: number;
   rating: number;
   reviewCount: number;
   sizes: string[];
   colors: string[];
-  image: (typeof PlaceHolderImages)[0];
-  gender: 'Unisex' | 'Men' | 'Women';
-  materials: string[];
-  protection: string[];
-  certification: string | null;
-  specialFeatures: string[];
-  weight: number; // in kilograms
+  images: Image[];
+  gender?: 'Unisex' | 'Men' | 'Women';
+  materials?: string[];
+  protection?: string[];
+  certification?: string | null;
+  specialFeatures?: string[];
+  weight?: number; // in kilograms
+  longDescription?: any[];
 };
-
-export const products: Product[] = [
-  {
-    id: 'prod_1',
-    slug: 'urban-explorer-helmet',
-    name: 'Urban Explorer Helmet',
-    brand: 'Aether',
-    category: 'Helmets',
-    description: 'A sleek and modern full-face helmet designed for the urban rider. Offers superior protection and comfort without compromising on style.',
-    longDescription: 'The Urban Explorer Helmet by Aether is the pinnacle of urban motorcycle safety and style. Engineered with an advanced polycarbonate composite shell, it provides robust protection while remaining lightweight for daily commutes. The multi-density EPS liner is designed to absorb impacts effectively, enhancing rider safety. Its advanced channeling ventilation system ensures optimal airflow, keeping you cool and comfortable during long rides in the city. The integrated sun visor can be deployed easily, reducing glare and improving visibility. Certified by both DOT and ECE 22.05, this helmet meets rigorous international safety standards, making it a reliable choice for discerning riders.',
-    price: 2999000,
-    rating: 4.5,
-    reviewCount: 82,
-    sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['Matte Black', 'Gloss White', 'Titanium'],
-    image: PlaceHolderImages.find(p => p.id === 'product-helmet-1')!,
-    gender: 'Unisex',
-    materials: ['Advanced Polycarbonate Composite Shell', 'Multi-density EPS liner'],
-    protection: ['High impact absorption shell'],
-    certification: 'DOT, ECE 22.05',
-    specialFeatures: ['Integrated sun visor', 'Advanced channeling ventilation system'],
-    weight: 1.5,
-  },
-  {
-    id: 'prod_2',
-    slug: 'classic-leather-jacket',
-    name: 'Classic Leather Jacket',
-    brand: 'Dainese',
-    category: 'Jackets',
-    description: 'Timeless style meets modern protection. This premium leather jacket is perfect for any rider looking for a classic look with CE-rated armor.',
-    longDescription: 'Embrace the spirit of the open road with the Dainese Classic Leather Jacket. Crafted from premium 1.2mm genuine cowhide, this jacket offers exceptional abrasion resistance and a timeless aesthetic that never goes out of style. It comes equipped with removable CE-approved armor in the shoulders and elbows, providing reliable impact protection. The action back design ensures a comfortable fit and freedom of movement while riding. Multiple zippered pockets offer practical storage for your essentials. With waist adjustment straps, you can achieve a personalized fit. This jacket is certified to EN 17092 Class A standard, blending classic design with modern safety technology.',
-    price: 5250000,
-    rating: 4.8,
-    reviewCount: 154,
-    sizes: ['M', 'L', 'XL', 'XXL'],
-    colors: ['Black', 'Brown'],
-    image: PlaceHolderImages.find(p => p.id === 'product-jacket-1')!,
-    gender: 'Men',
-    materials: ['1.2mm Genuine Cowhide Leather'],
-    protection: ['Removable CE-approved shoulder armor', 'Removable CE-approved elbow armor'],
-    certification: 'EN 17092 Class A',
-    specialFeatures: ['Action back for comfort and mobility', 'Multiple zippered pockets for storage', 'Waist adjustment straps'],
-    weight: 2.5,
-  },
-  {
-    id: 'prod_3',
-    slug: 'apex-pro-gloves',
-    name: 'Apex Pro Gloves',
-    brand: 'Alpinestars',
-    category: 'Gloves',
-    description: 'Get a grip with the Apex Pro gloves. Featuring hard-knuckle protection and a pre-curved design for maximum comfort and control.',
-    longDescription: 'The Alpinestars Apex Pro Gloves are engineered for performance and protection. Constructed from a durable mix of goat leather and textile, they offer a perfect balance of flexibility and abrasion resistance. The standout safety feature is the TPU molded hard knuckle protector, designed to shield against impacts. A reinforced palm slider adds another layer of security for critical contact zones. For modern convenience, the fingertips are touchscreen compatible, allowing you to use your devices without removing your gloves. The pre-curved finger construction reduces rider fatigue and improves comfort, while a secure hook and loop wrist closure ensures the gloves stay firmly in place.',
-    price: 1200000,
-    rating: 4.6,
-    reviewCount: 65,
-    sizes: ['S', 'M', 'L', 'XL'],
-    colors: ['Black', 'Red', 'Blue'],
-    image: PlaceHolderImages.find(p => p.id === 'product-gloves-1')!,
-    gender: 'Unisex',
-    materials: ['Goat leather', 'Textile'],
-    protection: ['TPU molded hard knuckle protector', 'Reinforced palm slider'],
-    certification: 'CE Certified EN 13594:2015',
-    specialFeatures: ['Touchscreen compatible fingertips', 'Pre-curved finger construction', 'Hook and loop wrist closure'],
-    weight: 0.4,
-  },
-  {
-    id: 'prod_4',
-    slug: 'touring-tech-boots',
-    name: 'Touring-Tech Boots',
-    brand: 'Sidi',
-    category: 'Boots',
-    description: 'Built for the long haul, these waterproof touring boots provide all-day comfort and protection against the elements and the road.',
-    longDescription: 'Sidi\'s Touring-Tech Boots are the ultimate companion for any long-distance rider. The upper is constructed from Technomicro Microfiber, a material known for its durability and water-resistant properties, which is further enhanced by a full Gore-Tex waterproof and breathable membrane. Protection is paramount, with a robust shin plate, ankle support braces, and a reinforced heel cup to guard against impacts and torsion. These boots meet the stringent CE EN 13634:2017 certification. The high-grip rubber sole provides excellent traction on and off the bike, and a side-entry system with a zipper and Velcro flap allows for easy and secure fastening.',
-    price: 3450000,
-    rating: 4.7,
-    reviewCount: 91,
-    sizes: ['8', '9', '10', '11', '12'],
-    colors: ['Black'],
-    image: PlaceHolderImages.find(p => p.id === 'product-boots-1')!,
-    gender: 'Unisex',
-    materials: ['Technomicro Microfiber', 'Gore-Tex membrane'],
-    protection: ['Shin plate', 'Ankle support braces', 'Reinforced heel cup'],
-    certification: 'CE Certified EN 13634:2017',
-    specialFeatures: ['Waterproof and breathable', 'High-grip rubber sole', 'Side-entry system with zipper and Velcro'],
-    weight: 1.8,
-  },
-  {
-    id: 'prod_5',
-    slug: 'retro-cruiser-helmet',
-    name: 'Retro Cruiser Helmet',
-    brand: 'Vanguard',
-    category: 'Helmets',
-    description: 'A vintage-inspired open-face helmet for the modern classic enthusiast. Lightweight and comfortable for city cruising.',
-    longDescription: 'Capture the essence of classic motorcycling with the Vanguard Retro Cruiser Helmet. Its design harks back to a golden era, but its construction is thoroughly modern. The shell is made from a lightweight fiberglass composite, reducing neck fatigue, while the plush quilted comfort liner provides a snug fit for all-day cruising. Safety is handled by a multi-density EPS liner compliant with DOT standards. Thoughtful details include a classic goggle strap holder at the back and compatibility with 3-snap visors and shields, allowing for easy customization. This helmet is the perfect choice for riders of vintage bikes, cafe racers, and modern classics.',
-    price: 2250000,
-    rating: 4.3,
-    reviewCount: 45,
-    sizes: ['S', 'M', 'L'],
-    colors: ['Cream', 'British Racing Green'],
-    image: PlaceHolderImages.find(p => p.id === 'product-helmet-2')!,
-    gender: 'Unisex',
-    materials: ['Fiberglass composite shell', 'Quilted comfort liner'],
-    protection: ['Multi-density EPS liner'],
-    certification: 'DOT',
-    specialFeatures: ['Goggle strap holder', '3-snap visor compatibility', 'Lightweight design'],
-    weight: 1.3,
-  },
-  {
-    id: 'prod_6',
-    slug: 'adventure-touring-jacket',
-    name: 'Adventure Touring Jacket',
-    brand: 'Rev\'It',
-    category: 'Jackets',
-    description: 'The ultimate all-weather, all-terrain jacket. With a removable thermal liner and waterproof shell, you\'re ready for any adventure.',
-    longDescription: 'The Rev\'It Adventure Touring Jacket is a masterpiece of versatility, designed for riders who answer the call of the wild. Its durable 600D textile outer shell is built to withstand the rigors of adventure riding. Adapt to any climate with the removable full-sleeve thermal liner for cold days and a breathable, waterproof Hydratex liner for wet conditions. When the temperature rises, adjustable ventilation ports on the chest and back provide excellent airflow. Safety is ensured with Seesmart CE-level 1 protectors at the shoulders and elbows, and a pocket is included for an optional back protector insert. With its Class AA certification, this jacket is your reliable shield against the elements and the unexpected.',
-    price: 6450000,
-    rating: 4.9,
-    reviewCount: 112,
-    sizes: ['M', 'L', 'XL', 'XXL'],
-    colors: ['Sand', 'Grey/Black'],
-    image: PlaceHolderImages.find(p => p.id === 'product-jacket-2')!,
-    gender: 'Men',
-    materials: ['Durable 600D Textile Outer Shell', 'Hydratex waterproof liner'],
-    protection: ['Seesmart CE-level 1 shoulder protectors', 'Seesmart CE-level 1 elbow protectors', 'Pocket for back protector'],
-    certification: 'EN 17092 Class AA',
-    specialFeatures: ['Removable full-sleeve thermal liner', 'Adjustable ventilation ports', 'Waterproof'],
-    weight: 3.2,
-  },
-  {
-    id: 'prod_7',
-    slug: 'armored-riding-jeans',
-    name: 'Armored Riding Jeans',
-    brand: 'Klim',
-    category: 'Pants',
-    description: 'Look casual, ride protected. These riding jeans are reinforced with aramid fibers and come with removable knee and hip armor.',
-    longDescription: 'Klim\'s Armored Riding Jeans offer the perfect blend of casual style and serious motorcycle protection. Made from rugged 14oz denim, they look and feel like your favorite pair of jeans but are built for the ride. Key impact zones are reinforced with Aramid Fiber, known for its exceptional strength and abrasion resistance. For impact safety, the jeans come standard with removable CE Level 2 protectors for both the knees and hips. The classic 5-pocket design and comfort-fit make them practical for on and off the bike, ensuring you don\'t have to compromise on style or safety during your urban adventures.',
-    price: 2700000,
-    rating: 4.6,
-    reviewCount: 78,
-    sizes: ['30', '32', '34', '36', '38'],
-    colors: ['Dark Wash', 'Black'],
-    image: PlaceHolderImages.find(p => p.id === 'product-pants-1')!,
-    gender: 'Men',
-    materials: ['14oz Denim', 'Aramid Fiber'],
-    protection: ['Removable CE Level 2 knee protectors', 'Removable CE Level 2 hip protectors'],
-    certification: 'EN 17092 Class A',
-    specialFeatures: ['Classic 5-pocket design', 'Comfort-fit'],
-    weight: 1.1,
-  },
-  {
-    id: 'prod_8',
-    slug: 'track-day-racing-suit',
-    name: 'Track Day Racing Suit',
-    brand: 'Alpinestars',
-    category: 'Suits',
-    description: 'A one-piece leather suit for the aspiring track enthusiast. Aerodynamically designed with top-tier protection for high-speed performance.',
-    longDescription: 'Unleash your potential on the track with the Alpinestars Track Day Racing Suit. This one-piece suit is constructed from premium 1.3mm full-grain cowhide leather for superior abrasion resistance. It features strategically placed aramidic stretch panels to provide a snug, ergonomic fit that moves with you. Protection is state-of-the-art, with CE-certified internal protectors, GP-R armor on the shoulders, elbows, and knees, and external DFS sliders. The aerodynamic back hump is engineered to improve stability at high speeds, while perforated panels ensure you stay cool under pressure. Complete with replaceable sport knee sliders, this suit is built for those who demand the highest level of performance and safety.',
-    price: 13500000,
-    rating: 4.9,
-    reviewCount: 34,
-    sizes: ['48', '50', '52', '54'],
-    colors: ['Black/White', 'Red/Black'],
-    image: PlaceHolderImages.find(p => p.id === 'product-suit-1')!,
-    gender: 'Unisex',
-    materials: ['Full-grain 1.3mm Cowhide Leather', 'Aramidic stretch panels'],
-    protection: ['CE-certified internal protectors', 'GP-R elbow, shoulder, knee protectors', 'DFS sliders'],
-    certification: 'CE-certified to CE Category II',
-    specialFeatures: ['Aerodynamic back hump', 'Perforated panels for ventilation', 'Replaceable sport knee sliders'],
-    weight: 4.5,
-  },
-];
-
-    

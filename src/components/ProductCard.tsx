@@ -10,6 +10,7 @@ import { formatRupiah } from "@/lib/utils";
 import { QuickAddDialog } from "./QuickAddDialog";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { urlFor } from "@/sanity/client";
 
 type ProductCardProps = {
   product: Product;
@@ -22,24 +23,23 @@ export function ProductCard({ product }: ProductCardProps) {
     <>
       <div className="glass-card overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col">
         <div className="relative group">
-          <Link href={`/shop/${product.slug}`} prefetch={true}>
+          <Link href={`/shop/${product.slug.current}`} prefetch={true}>
             <Image
-              src={product.image.imageUrl}
+              src={urlFor(product.images[0]).width(600).height(600).url()}
               alt={product.name}
               width={600}
               height={600}
               className="object-cover w-full aspect-square"
-              data-ai-hint={product.image.imageHint}
             />
           </Link>
           <Badge variant="default" className="absolute bottom-3 left-3 bg-primary/80 backdrop-blur-sm text-primary-foreground border-none text-[9px] md:text-[10px] px-1.5 py-0.5">
-            {product.category}
+            {product.category.title}
           </Badge>
         </div>
         <div className="p-4 flex flex-col flex-grow">
-          <p className="text-muted-foreground text-sm">{product.brand}</p>
+          <p className="text-muted-foreground text-sm">{product.brand.title}</p>
           <div className="flex-grow min-h-[3rem]">
-            <Link href={`/shop/${product.slug}`} prefetch={true}>
+            <Link href={`/shop/${product.slug.current}`} prefetch={true}>
               <h3 className="font-semibold uppercase line-clamp-2 mt-1">{product.name}</h3>
             </Link>
           </div>

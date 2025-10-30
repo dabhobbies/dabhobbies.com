@@ -1,8 +1,19 @@
 import { createClient } from 'next-sanity'
+import imageUrlBuilder from '@sanity/image-url'
+
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!
+const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION!
 
 export const client = createClient({
-  projectId: 'ko6ixh1i',
-  dataset: 'production',
-  apiVersion: '2024-01-01', // use a UTC date in YYYY-MM-DD format
-  useCdn: false, // `false` if you want to ensure fresh data
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: process.env.NODE_ENV === 'production',
 })
+
+const builder = imageUrlBuilder(client)
+
+export function urlFor(source: any) {
+  return builder.image(source)
+}

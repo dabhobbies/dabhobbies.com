@@ -24,6 +24,8 @@ import {
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { formatRupiah } from "@/lib/utils";
+import { urlFor } from "@/sanity/client";
+
 
 type QuickAddDialogProps = {
   product: Product;
@@ -34,8 +36,8 @@ type QuickAddDialogProps = {
 
 export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: QuickAddDialogProps) {
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || '');
+  const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
 
   const { dispatch } = useCart();
   const { toast } = useToast();
@@ -54,10 +56,14 @@ export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: Qui
     // Reset state for next time
     setTimeout(() => {
         setQuantity(1);
-        setSelectedSize(product.sizes[0]);
-        setSelectedColor(product.colors[0]);
+        setSelectedSize(product.sizes?.[0] || '');
+        setSelectedColor(product.colors?.[0] || '');
     }, 300)
   };
+
+  const hasSizes = product.sizes && product.sizes.length > 0;
+  const hasColors = product.colors && product.colors.length > 0;
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -69,7 +75,7 @@ export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: Qui
         <div className="grid gap-4 py-4">
           <div className="flex gap-4 items-start">
             <Image 
-                src={product.image.imageUrl}
+                src={urlFor(product.images[0]).width(100).height(100).url()}
                 alt={product.name}
                 width={100}
                 height={100}
@@ -78,32 +84,36 @@ export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: Qui
             <div className="flex-grow">
                 <p className="text-xl font-bold">{formatRupiah(product.price)}</p>
                 <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div>
-                    <label htmlFor="size" className="font-medium text-sm">Size</label>
-                    <Select value={selectedSize} onValueChange={setSelectedSize}>
-                        <SelectTrigger id="size" className="mt-1 bg-transparent">
-                        <SelectValue placeholder="Select size" />
-                        </SelectTrigger>
-                        <SelectContent>
-                        {product.sizes.map((size) => (
-                            <SelectItem key={size} value={size}>{size}</SelectItem>
-                        ))}
-                        </SelectContent>
-                    </Select>
-                    </div>
-                    <div>
-                    <label htmlFor="color" className="font-medium text-sm">Color</label>
-                    <Select value={selectedColor} onValueChange={setSelectedColor}>
-                        <SelectTrigger id="color" className="mt-1 bg-transparent">
-                        <SelectValue placeholder="Select color" />
-                        </SelectTrigger>
-                        <SelectContent>
-                        {product.colors.map((color) => (
-                            <SelectItem key={color} value={color}>{color}</SelectItem>
-                        ))}
-                        </SelectContent>
-                    </Select>
-                    </div>
+                    {hasSizes && (
+                      <div>
+                        <label htmlFor="size" className="font-medium text-sm">Size</label>
+                        <Select value={selectedSize} onValueChange={setSelectedSize}>
+                            <SelectTrigger id="size" className="mt-1 bg-transparent">
+                            <SelectValue placeholder="Select size" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            {product.sizes.map((size) => (
+                                <SelectItem key={size} value={size}>{size}</SelectItem>
+                            ))}
+                            </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+                    {hasColors && (
+                      <div>
+                        <label htmlFor="color" className="font-medium text-sm">Color</label>
+                        <Select value={selectedColor} onValueChange={setSelectedColor}>
+                            <SelectTrigger id="color" className="mt-1 bg-transparent">
+                            <SelectValue placeholder="Select color" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            {product.colors.map((color) => (
+                                <SelectItem key={color} value={color}>{color}</SelectItem>
+                            ))}
+                            </SelectContent>
+                        </Select>
+                      </div>
+                    )}
                 </div>
             </div>
           </div>
