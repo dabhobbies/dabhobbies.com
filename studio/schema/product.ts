@@ -83,14 +83,12 @@ export default {
         title: 'Sizes',
         type: 'array',
         of: [{type: 'string'}],
-        validation: (Rule: any) => Rule.required().min(1).error('At least one size is required.'),
     },
     {
         name: 'colors',
         title: 'Colors',
         type: 'array',
         of: [{type: 'string'}],
-        validation: (Rule: any) => Rule.required().min(1).error('At least one color is required.'),
     },
     {
         name: 'gender',
