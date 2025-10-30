@@ -1,6 +1,7 @@
 
 import type {Metadata} from 'next';
 import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Dab Hobbies',
@@ -21,4 +22,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,700;1,700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
         <meta name="theme-color" content="#FF6600" />
       </head>
-      <body className="font
+      <body className="font-body">
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
