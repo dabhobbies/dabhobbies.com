@@ -34,7 +34,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     case 'ADD_ITEM': {
       const existingItemIndex = state.items.findIndex(
         (item) =>
-          item.product.id === action.payload.product.id &&
+          item.product._id === action.payload.product._id &&
           item.size === action.payload.size &&
           item.color === action.payload.color
       );
@@ -51,7 +51,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         items: state.items.filter(
           (item) =>
             !(
-              item.product.id === action.payload.productId &&
+              item.product._id === action.payload.productId &&
               item.size === action.payload.size &&
               item.color === action.payload.color
             )
@@ -65,14 +65,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
           ...state,
           items: state.items.filter(
             (item) =>
-              !(item.product.id === productId && item.size === size && item.color === color)
+              !(item.product._id === productId && item.size === size && item.color === color)
           ),
         };
       }
       return {
         ...state,
         items: state.items.map((item) =>
-          item.product.id === productId && item.size === size && item.color === color
+          item.product._id === productId && item.size === size && item.color === color
             ? { ...item, quantity }
             : item
         ),
@@ -83,13 +83,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
         // First, remove the old item
         const itemsWithoutOld = state.items.filter(item => 
-            !(item.product.id === newItem.product.id && item.size === oldSize && item.color === oldColor)
+            !(item.product._id === newItem.product._id && item.size === oldSize && item.color === oldColor)
         );
 
         // Then, add the new item (which will merge if it already exists)
         const existingItemIndex = itemsWithoutOld.findIndex(
             (item) =>
-              item.product.id === newItem.product.id &&
+              item.product._id === newItem.product._id &&
               item.size === newItem.size &&
               item.color === newItem.color
         );
@@ -102,7 +102,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
         // We need to find the original item's index to insert the new item at the same position
         const originalIndex = state.items.findIndex(item => 
-            item.product.id === newItem.product.id && item.size === oldSize && item.color === oldColor
+            item.product._id === newItem.product._id && item.size === oldSize && item.color === oldColor
         );
         
         const finalItems = [...itemsWithoutOld];

@@ -105,7 +105,7 @@ export default async function Home() {
                   {categories.map(c => (
                       <Link href={`/shop/category/${c.slug.current}`} key={c.slug.current} className="group block text-center" prefetch={true}>
                           <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                              <Image src={c.imageUrl} alt={c.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />
+                              {c.imageUrl && <Image src={c.imageUrl} alt={c.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />}
                               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                           </div>
                           <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{c.title}</h3>
@@ -123,7 +123,7 @@ export default async function Home() {
                   {brands.map(b => (
                        <Link href={`/shop/brand/${b.slug.current}`} key={b.slug.current} className="group block text-center" prefetch={true}>
                            <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                              <Image src={b.imageUrl} alt={b.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"/>
+                              {b.imageUrl && <Image src={b.imageUrl} alt={b.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"/>}
                               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                           </div>
                           <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{b.title}</h3>

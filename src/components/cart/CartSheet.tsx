@@ -25,10 +25,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { urlFor } from "@/sanity/client";
 
 
 function CartItem({ item }: { item: CartItem }) {
   const { dispatch } = useCart();
+  const imageUrl = item.product.images?.[0] ? urlFor(item.product.images[0]).width(100).height(100).url() : "https://placehold.co/100x100";
+
 
   const handleVariantChange = (type: 'size' | 'color', value: string) => {
     const newItem: CartItem = {
@@ -49,7 +52,7 @@ function CartItem({ item }: { item: CartItem }) {
   return (
     <div className="flex gap-4">
       <Image
-        src={item.product.image.imageUrl}
+        src={imageUrl}
         alt={item.product.name}
         width={80}
         height={80}
@@ -62,26 +65,30 @@ function CartItem({ item }: { item: CartItem }) {
         </div>
         
         <div className="grid grid-cols-2 gap-2">
-          <Select value={item.size} onValueChange={(value) => handleVariantChange('size', value)}>
-            <SelectTrigger className="h-8 text-xs bg-transparent">
-              <SelectValue placeholder="Size" />
-            </SelectTrigger>
-            <SelectContent>
-              {item.product.sizes.map((size) => (
-                <SelectItem key={size} value={size} className="text-xs">{size}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={item.color} onValueChange={(value) => handleVariantChange('color', value)}>
-            <SelectTrigger className="h-8 text-xs bg-transparent">
-              <SelectValue placeholder="Color" />
-            </SelectTrigger>
-            <SelectContent>
-              {item.product.colors.map((color) => (
-                <SelectItem key={color} value={color} className="text-xs">{color}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {item.product.sizes && item.product.sizes.length > 0 && (
+            <Select value={item.size} onValueChange={(value) => handleVariantChange('size', value)}>
+              <SelectTrigger className="h-8 text-xs bg-transparent">
+                <SelectValue placeholder="Size" />
+              </SelectTrigger>
+              <SelectContent>
+                {item.product.sizes.map((size) => (
+                  <SelectItem key={size} value={size} className="text-xs">{size}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+          {item.product.colors && item.product.colors.length > 0 && (
+            <Select value={item.color} onValueChange={(value) => handleVariantChange('color', value)}>
+              <SelectTrigger className="h-8 text-xs bg-transparent">
+                <SelectValue placeholder="Color" />
+              </SelectTrigger>
+              <SelectContent>
+                {item.product.colors.map((color) => (
+                  <SelectItem key={color} value={color} className="text-xs">{color}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
         <div className="flex items-center justify-between mt-1">
@@ -93,7 +100,7 @@ function CartItem({ item }: { item: CartItem }) {
               onClick={() =>
                 dispatch({
                   type: "UPDATE_QUANTITY",
-                  payload: { ...item, productId: item.product.id, quantity: item.quantity - 1 },
+                  payload: { ...item, productId: item.product._id, quantity: item.quantity - 1 },
                 })
               }
             >
@@ -107,7 +114,7 @@ function CartItem({ item }: { item: CartItem }) {
                onClick={() =>
                 dispatch({
                   type: "UPDATE_QUANTITY",
-                  payload: { ...item, productId: item.product.id, quantity: item.quantity + 1 },
+                  payload: { ...item, productId: item.product._id, quantity: item.quantity + 1 },
                 })
               }
             >
@@ -121,7 +128,7 @@ function CartItem({ item }: { item: CartItem }) {
             onClick={() =>
               dispatch({
                 type: "REMOVE_ITEM",
-                payload: { ...item, productId: item.product.id },
+                payload: { ...item, productId: item.product._id },
               })
             }
           >
@@ -162,7 +169,7 @@ export function CartSheet() {
             <ScrollArea className="flex-grow pr-4">
               <div className="flex flex-col gap-6">
                 {state.items.map((item) => (
-                  <CartItem key={`${item.product.id}-${item.size}-${item.color}`} item={item} />
+                  <CartItem key={`${item.product._id}-${item.size}-${item.color}`} item={item} />
                 ))}
               </div>
             </ScrollArea>
@@ -199,3 +206,4 @@ export function CartSheet() {
     </Sheet>
   );
 }
+
