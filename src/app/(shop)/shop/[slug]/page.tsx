@@ -1,25 +1,50 @@
 
+
 // This is a server component
 import { notFound } from "next/navigation";
-import { products } from "@/lib/data";
 import ProductClientComponent from "./ProductClientComponent";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { client } from "@/sanity/client";
+import type { Product } from "@/lib/data";
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = products.find((p) => p.slug === params.slug);
+async function getProductData(slug: string) {
+    const productQuery = `*[_type == "product" && slug.current == $slug][0]{
+        ...,
+        brand->,
+        category->
+    }`;
+    const product = await client.fetch<Product | null>(productQuery, { slug });
+
+    if (!product) return { product: null, relatedProducts: [] };
+
+    const relatedProductsQuery = `*[_type == "product" && category->slug.current == $categorySlug && slug.current != $slug][0...4]{
+        _id,
+        name,
+        slug,
+        price,
+        images,
+        brand->{title},
+        category->{title}
+    }`;
+    const relatedProducts = await client.fetch<Product[]>(relatedProductsQuery, { 
+        categorySlug: product.category.slug.current,
+        slug: product.slug.current
+    });
+    
+    return { product, relatedProducts };
+}
+
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const { product, relatedProducts } = await getProductData(params.slug);
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = products
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
-
   const breadcrumbItems = [
       { label: "Shop", href: "/shop" },
-      { label: product.category, href: `/shop/category/${product.category.toLowerCase()}`},
-      { label: product.name, href: `/shop/${product.slug}` }
+      { label: product.category.title, href: `/shop/category/${product.category.slug.current}`},
+      { label: product.name, href: `/shop/${product.slug.current}` }
   ];
 
   return (
@@ -31,3 +56,11 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     </>
   );
 }
+
+export async function generateStaticParams() {
+    const products = await client.fetch< {slug: {current: string}}[] >(`*[_type == "product" && defined(slug.current)]{ "slug": slug }`);
+    return products.map(product => ({
+        slug: product.slug.current
+    }));
+}
+

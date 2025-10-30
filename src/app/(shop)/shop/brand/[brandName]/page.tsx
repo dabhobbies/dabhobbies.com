@@ -1,48 +1,63 @@
 
-import { products } from "@/lib/data";
+import { client } from "@/sanity/client";
 import { ProductCard } from "@/components/ProductCard";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { Product } from "@/lib/data";
 
-export function generateStaticParams() {
-  const brands = [...new Set(products.map((p) => p.brand))];
+export async function generateStaticParams() {
+  const brands = await client.fetch< {slug: {current: string}}[] >(`*[_type == "productBrand" && defined(slug.current)]{ "slug": slug }`);
   return brands.map((brand) => ({
-    brandName: brand.toLowerCase(),
+    brandName: brand.slug.current,
   }));
 }
 
-export function generateMetadata({ params }: { params: { brandName: string } }): Metadata {
-    const brandName = params.brandName;
-    const brand = products.find(p => p.brand.toLowerCase() === brandName.toLowerCase())?.brand;
+async function getBrandData(brandName: string) {
+    const brandQuery = `*[_type == "productBrand" && slug.current == $brandName][0]{ title }`;
+    const productsQuery = `*[_type == "product" && brand->slug.current == $brandName]{
+      _id,
+      name,
+      slug,
+      price,
+      images,
+      brand->{title},
+      category->{title},
+      rating,
+      reviewCount
+    }`;
 
+    const brand = await client.fetch<{title: string} | null>(brandQuery, { brandName });
+    if (!brand) return { brand: null, products: [] };
+    
+    const products = await client.fetch<Product[]>(productsQuery, { brandName });
+    return { brand, products };
+}
+
+
+export async function generateMetadata({ params }: { params: { brandName: string } }): Promise<Metadata> {
+    const { brand } = await getBrandData(params.brandName);
     if (!brand) {
         return {
             title: "Brand not found"
         }
     }
-
     return {
-        title: `${brand} | Dab Hobbies`
+        title: `${brand.title} | Dab Hobbies`
     }
 }
 
 
-export default function BrandPage({ params }: { params: { brandName: string } }) {
-  const brandName = params.brandName;
-  const filteredProducts = products.filter(
-    (product) => product.brand.toLowerCase() === brandName.toLowerCase()
-  );
+export default async function BrandPage({ params }: { params: { brandName: string } }) {
+  const { brand, products: filteredProducts } = await getBrandData(params.brandName);
 
-  if (filteredProducts.length === 0) {
+  if (!brand) {
     notFound();
   }
-
-  const brandTitle = filteredProducts[0].brand;
   
   const breadcrumbItems = [
     { label: "Shop", href: "/shop" },
-    { label: brandTitle, href: `/shop/brand/${brandName}` }
+    { label: brand.title, href: `/shop/brand/${params.brandName}` }
   ];
 
   return (
@@ -50,11 +65,11 @@ export default function BrandPage({ params }: { params: { brandName: string } })
       <Breadcrumbs items={breadcrumbItems} />
       <div className="container mx-auto py-16 md:py-24">
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-12 uppercase">
-          {brandTitle}
+          {brand.title}
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>
