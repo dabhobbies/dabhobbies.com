@@ -22,12 +22,11 @@ export function Header() {
           <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={120} height={40} className="object-contain" />
         </Link>
         
-        {/* Advanced Search Component for desktop */}
-        <div className="hidden sm:flex flex-1 justify-center px-4">
-          <SearchComponent />
+        <div className="flex-1 hidden sm:flex justify-center px-4">
+            <SearchComponent />
         </div>
 
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 flex-shrink-0 ml-auto sm:ml-0">
           <CartSheet />
 
           {/* Mobile Menu */}
