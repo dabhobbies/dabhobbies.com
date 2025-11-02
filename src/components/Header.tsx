@@ -24,14 +24,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/50 backdrop-blur-xl">
-      <div className="container flex h-16 items-center gap-4">
+      <div className="container flex h-16 items-center gap-2">
         <Link href="/" className="flex items-center gap-2 flex-shrink-0" prefetch={true}>
           <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={120} height={40} className="object-contain" />
         </Link>
         
         {/* Search bar for desktop */}
-        <div className="hidden sm:flex flex-1 justify-center px-4">
-          <div className="relative w-full max-w-md">
+        <div className="hidden sm:flex flex-1 items-center">
+          <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
