@@ -16,10 +16,7 @@ import {
 import Image from "next/image";
 
 const navLinks = [
-  { href: "/shop/category/helmets", label: "Helmets" },
-  { href: "/shop/category/jackets", label: "Jackets" },
-  { href: "/shop/category/gloves", label: "Gloves" },
-  { href: "/shop/category/boots", label: "Boots" },
+  { href: "/shop", label: "Shop" },
 ];
 
 export function Header() {
