@@ -271,9 +271,9 @@ export default function ShopClientComponent({ products, allCategories, allBrands
             <div className="sticky top-24">
               <div className="glass-card p-6">
                  <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
-                <div className="max-h-[calc(100vh-12rem)] overflow-y-auto pr-4 -mr-4">
+                <ScrollArea className="max-h-[calc(100vh-12rem)] pr-4 -mr-4">
                   <Filters />
-                </div>
+                </ScrollArea>
               </div>
             </div>
           </aside>
@@ -327,9 +327,9 @@ export default function ShopClientComponent({ products, allCategories, allBrands
                       <X className="h-5 w-5" />
                   </Button>
               </div>
-              <div className="overflow-y-auto flex-grow pr-4 -mr-4">
+              <ScrollArea className="flex-grow pr-4 -mr-4">
                   <Filters />
-              </div>
+              </ScrollArea>
             </div>
         </div>
       </div>
