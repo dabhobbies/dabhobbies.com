@@ -24,33 +24,24 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/50 backdrop-blur-xl">
-      <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center gap-2" prefetch={true}>
+      <div className="container flex h-16 items-center gap-4">
+        <Link href="/" className="flex items-center gap-2 flex-shrink-0" prefetch={true}>
           <Image src="https://res.cloudinary.com/dui1k0xfz/image/upload/v1761549162/logo-dabhobbies_ji1j8s.webp" alt="Dab Hobbies logo" width={120} height={40} className="object-contain" />
         </Link>
-
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              prefetch={true}
-              className="font-headline uppercase text-foreground/60 transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="ml-auto flex items-center gap-2">
-          <div className="relative hidden sm:block">
+        
+        {/* Search bar for desktop */}
+        <div className="hidden sm:flex flex-1 justify-center px-4">
+          <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search products..."
-              className="pl-9 h-9 w-[200px] lg:w-[250px] bg-transparent"
+              className="pl-9 h-9 w-full bg-transparent"
             />
           </div>
+        </div>
+
+        <div className="flex items-center gap-2 ml-auto sm:ml-0 flex-shrink-0">
           <CartSheet />
 
           <div className="md:hidden">
@@ -62,6 +53,16 @@ export function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 border-white/20">
+                 <div className="p-2">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          type="search"
+                          placeholder="Search..."
+                          className="pl-9 h-9 w-full bg-background"
+                        />
+                    </div>
+                 </div>
                 {navLinks.map((link) => (
                   <DropdownMenuItem key={link.href} asChild>
                     <Link
