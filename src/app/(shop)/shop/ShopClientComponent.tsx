@@ -269,9 +269,11 @@ export default function ShopClientComponent({ products, allCategories, allBrands
           {/* Sidebar for Desktop */}
           <aside className="hidden lg:block w-1/4 xl:w-1/5">
             <div className="sticky top-24">
-              <div className="glass-card p-6 max-h-[calc(100vh-8rem)] overflow-y-auto">
-                <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
-                <Filters />
+              <div className="glass-card p-6">
+                 <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
+                <div className="max-h-[calc(100vh-12rem)] overflow-y-auto pr-4 -mr-4">
+                  <Filters />
+                </div>
               </div>
             </div>
           </aside>
@@ -333,5 +335,3 @@ export default function ShopClientComponent({ products, allCategories, allBrands
       </div>
   );
 }
-
-    
