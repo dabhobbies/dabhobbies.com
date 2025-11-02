@@ -15,12 +15,12 @@ async function getFeaturedData() {
       brand->{title},
       category->{title}
     }`;
-    const categoriesQuery = `*[_type == "productCategory"][0...4]{
+    const categoriesQuery = `*[_type == "productCategory"]{
       title,
       slug,
       "imageUrl": image.asset->url
     }`;
-     const brandsQuery = `*[_type == "productBrand"][0...4]{
+     const brandsQuery = `*[_type == "productBrand"]{
       title,
       slug,
       "imageUrl": image.asset->url
