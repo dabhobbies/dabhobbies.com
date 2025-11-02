@@ -271,7 +271,7 @@ export default function ShopClientComponent({ products, allCategories, allBrands
             <div className="sticky top-24">
               <div className="glass-card p-6">
                  <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
-                <ScrollArea className="max-h-[calc(100vh-12rem)] pr-4 -mr-4">
+                <ScrollArea className="h-[calc(100vh-12rem)] pr-4 -mr-4">
                   <Filters />
                 </ScrollArea>
               </div>
