@@ -24,9 +24,7 @@ export function Header() {
         
         {/* Advanced Search Component for desktop */}
         <div className="hidden sm:flex flex-1 justify-center px-4">
-            <div className="w-full max-w-2xl">
-                <SearchComponent />
-            </div>
+          <SearchComponent />
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
