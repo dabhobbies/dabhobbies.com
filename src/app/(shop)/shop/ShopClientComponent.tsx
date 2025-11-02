@@ -133,7 +133,7 @@ export default function ShopClientComponent({ products, allCategories, allBrands
   }, [products, debouncedSearchTerm, selectedCategories, selectedBrands, priceRange, selectedRating, selectedSizes, selectedColors, sortOrder]);
   
   const Filters = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 pr-4">
       <div>
         <h3 className="font-semibold mb-2 uppercase">Search</h3>
         <Input
@@ -271,9 +271,9 @@ export default function ShopClientComponent({ products, allCategories, allBrands
             <div className="sticky top-24">
               <div className="glass-card p-6">
                  <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
-                <ScrollArea className="h-[calc(100vh-12rem)] pr-4 -mr-4">
-                  <Filters />
-                </ScrollArea>
+                  <ScrollArea className="h-[calc(100vh-10rem)]">
+                    <Filters />
+                  </ScrollArea>
               </div>
             </div>
           </aside>
