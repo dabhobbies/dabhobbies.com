@@ -6,6 +6,7 @@ import {Toaster} from '@/components/ui/toaster';
 import {CartProvider} from '@/hooks/use-cart.tsx';
 import Image from 'next/image';
 import { WhatsAppButton } from '@/components/WhatsAppButton';
+import { CategoryNav } from '@/components/CategoryNav';
 
 export const metadata: Metadata = {
   title: 'Dab Hobbies',
@@ -21,6 +22,7 @@ export default function ShopLayout({
         <CartProvider>
           <div className="relative flex min-h-dvh flex-col bg-background">
             <Header />
+            <CategoryNav />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
