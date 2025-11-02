@@ -19,6 +19,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Star, ListFilter, X } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 import { useDebounce } from "@/hooks/use-debounce";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ShopClientComponentProps {
     products: Product[];
@@ -99,10 +100,10 @@ export default function ShopClientComponent({ products, allCategories, allBrands
         .includes(debouncedSearchTerm.toLowerCase());
       const matchesCategory =
         selectedCategories.length === 0 ||
-        selectedCategories.includes(product.category.title);
+        (product.category && selectedCategories.includes(product.category.title));
       const matchesBrand =
         selectedBrands.length === 0 ||
-        selectedBrands.includes(product.brand.title);
+        (product.brand && selectedBrands.includes(product.brand.title));
       const matchesPrice =
         product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesRating = (product.rating || 0) >= selectedRating;
@@ -145,36 +146,44 @@ export default function ShopClientComponent({ products, allCategories, allBrands
       <Accordion type="multiple" defaultValue={['category', 'brand', 'price', 'rating']} className="w-full">
         <AccordionItem value="category">
           <AccordionTrigger className="font-semibold uppercase">Category</AccordionTrigger>
-          <AccordionContent className="space-y-2 pt-2">
-            {allCategories.map((category) => (
-              <div key={category} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`cat-${category}`}
-                  checked={selectedCategories.includes(category)}
-                  onCheckedChange={() => handleCategoryChange(category)}
-                />
-                <label htmlFor={`cat-${category}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {category}
-                </label>
+          <AccordionContent>
+            <ScrollArea className="h-48">
+              <div className="space-y-2 pt-2 pr-4">
+                {allCategories.map((category) => (
+                  <div key={category} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`cat-${category}`}
+                      checked={selectedCategories.includes(category)}
+                      onCheckedChange={() => handleCategoryChange(category)}
+                    />
+                    <label htmlFor={`cat-${category}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      {category}
+                    </label>
+                  </div>
+                ))}
               </div>
-            ))}
+            </ScrollArea>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="brand">
           <AccordionTrigger className="font-semibold uppercase">Brand</AccordionTrigger>
-          <AccordionContent className="space-y-2 pt-2">
-            {allBrands.map((brand) => (
-              <div key={brand} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`brand-${brand}`}
-                  checked={selectedBrands.includes(brand)}
-                  onCheckedChange={() => handleBrandChange(brand)}
-                />
-                <label htmlFor={`brand-${brand}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {brand}
-                </label>
-              </div>
-            ))}
+          <AccordionContent>
+             <ScrollArea className="h-48">
+                <div className="space-y-2 pt-2 pr-4">
+                    {allBrands.map((brand) => (
+                    <div key={brand} className="flex items-center space-x-2">
+                        <Checkbox
+                        id={`brand-${brand}`}
+                        checked={selectedBrands.includes(brand)}
+                        onCheckedChange={() => handleBrandChange(brand)}
+                        />
+                        <label htmlFor={`brand-${brand}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        {brand}
+                        </label>
+                    </div>
+                    ))}
+                </div>
+            </ScrollArea>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="price">
@@ -259,9 +268,11 @@ export default function ShopClientComponent({ products, allCategories, allBrands
         <div className="flex gap-8">
           {/* Sidebar for Desktop */}
           <aside className="hidden lg:block w-1/4 xl:w-1/5">
-            <div className="sticky top-24 glass-card p-6">
-              <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
-              <Filters />
+            <div className="sticky top-24">
+              <div className="glass-card p-6 max-h-[calc(100vh-8rem)] overflow-y-auto">
+                <h2 className="text-2xl font-bold mb-4 uppercase">Filters</h2>
+                <Filters />
+              </div>
             </div>
           </aside>
 
@@ -322,3 +333,5 @@ export default function ShopClientComponent({ products, allCategories, allBrands
       </div>
   );
 }
+
+    
