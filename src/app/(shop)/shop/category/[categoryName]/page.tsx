@@ -1,3 +1,4 @@
+
 import { client } from "@/sanity/client";
 import ShopClientComponent from "../../ShopClientComponent";
 import { notFound } from "next/navigation";
@@ -13,7 +14,7 @@ export async function generateStaticParams() {
 }
 
 async function getCategoryData(categoryName: string) {
-    const categoryQuery = `*[_type == "productCategory" && slug.current == $categoryName][0]{ title }`;
+    const categoryQuery = `*[_type == "productCategory" && slug.current == $categoryName][0]{ title, "slug": slug.current }`;
     
     const productsQuery = `*[_type == "product" && category->slug.current == $categoryName]{
       _id,
@@ -28,7 +29,7 @@ async function getCategoryData(categoryName: string) {
       colors
     }`;
 
-    const category = await client.fetch<{title: string} | null>(categoryQuery, { categoryName }, { next: { tags: ['categories'] } });
+    const category = await client.fetch<{title: string, slug: string} | null>(categoryQuery, { categoryName }, { next: { tags: ['categories'] } });
     if (!category) return { category: null, products: [], allBrands: [], allCategories: [] };
     
     const products = await client.fetch<Product[]>(productsQuery, { categoryName }, { next: { tags: ['products'] } });
@@ -48,8 +49,15 @@ export async function generateMetadata({ params }: { params: { categoryName: str
         }
     }
 
+    const description = `Jelajahi koleksi ${category.title} terbaik di Dab Hobbies. Temukan helm, jaket, dan perlengkapan lainnya dengan kualitas terjamin.`;
+
     return {
-        title: `${category.title} | Dab Hobbies`
+        title: `${category.title} | Dab Hobbies`,
+        description: description,
+        openGraph: {
+            title: `${category.title} | Dab Hobbies`,
+            description: description,
+        },
     }
 }
 
@@ -68,6 +76,12 @@ export default async function CategoryPage({ params }: { params: { categoryName:
   return (
     <>
       <Breadcrumbs items={breadcrumbItems} />
+      <div className="container text-center pt-12">
+        <h1 className="text-4xl font-bold uppercase">{category.title}</h1>
+        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Jelajahi semua produk dalam kategori {category.title}. Gunakan filter di samping untuk menemukan perlengkapan yang paling sesuai untuk Anda.
+        </p>
+      </div>
       <ShopClientComponent products={products} allCategories={allCategories} allBrands={allBrands} />
     </>
   );

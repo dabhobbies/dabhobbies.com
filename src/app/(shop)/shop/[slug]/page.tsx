@@ -1,9 +1,13 @@
+
 // This is a server component
 import { notFound } from "next/navigation";
 import ProductClientComponent from "./ProductClientComponent";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { client } from "@/sanity/client";
+import { client, urlFor } from "@/sanity/client";
 import type { Product } from "@/lib/data";
+import type { Metadata } from 'next';
+import { SanityDocument } from "next-sanity";
+import { toPlainText } from "@portabletext/react";
 
 async function getProductData(slug: string) {
     const productQuery = `*[_type == "product" && slug.current == $slug][0]{
@@ -32,6 +36,33 @@ async function getProductData(slug: string) {
     return { product, relatedProducts };
 }
 
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    const { product } = await getProductData(params.slug);
+    if (!product) {
+        return {
+            title: "Product not found"
+        }
+    }
+    const description = product.description ? toPlainText(product.description) : 'No description available.';
+    return {
+        title: `${product.name} | Dab Hobbies`,
+        description: description,
+        openGraph: {
+            title: `${product.name} | Dab Hobbies`,
+            description: description,
+            images: [
+                {
+                    url: urlFor(product.images[0]).width(1200).height(630).url(),
+                    width: 1200,
+                    height: 630,
+                    alt: product.name,
+                },
+            ],
+        },
+    }
+}
+
+
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const { product, relatedProducts } = await getProductData(params.slug);
 
@@ -45,8 +76,54 @@ export default async function ProductPage({ params }: { params: { slug: string }
       { label: product.name, href: `/shop/${product.slug.current}` }
   ];
 
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description ? toPlainText(product.description) : undefined,
+    image: urlFor(product.images[0]).url(),
+    sku: product._id,
+    brand: {
+      '@type': 'Brand',
+      name: product.brand.title,
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/shop/${product.slug.current}`,
+      priceCurrency: 'IDR',
+      price: product.price,
+      availability: 'https://schema.org/InStock',
+    },
+     ...(product.rating && product.reviewCount && {
+        aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: product.rating,
+            reviewCount: product.reviewCount,
+        },
+    })
+  };
+
+  const breadcrumbJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.label,
+          item: `${process.env.NEXT_PUBLIC_SITE_URL}${item.href}`
+      }))
+  };
+
   return (
     <>
+      <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Breadcrumbs items={breadcrumbItems} />
       <div className="container mx-auto py-12 md:py-16">
          <ProductClientComponent product={product} relatedProducts={relatedProducts} />

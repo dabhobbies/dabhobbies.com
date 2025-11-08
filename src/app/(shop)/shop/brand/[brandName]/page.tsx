@@ -1,3 +1,4 @@
+
 import { client } from "@/sanity/client";
 import { ProductCard } from "@/components/ProductCard";
 import { notFound } from "next/navigation";
@@ -13,7 +14,7 @@ export async function generateStaticParams() {
 }
 
 async function getBrandData(brandName: string) {
-    const brandQuery = `*[_type == "productBrand" && slug.current == $brandName][0]{ title }`;
+    const brandQuery = `*[_type == "productBrand" && slug.current == $brandName][0]{ title, "slug": slug.current }`;
     const productsQuery = `*[_type == "product" && brand->slug.current == $brandName]{
       _id,
       name,
@@ -26,7 +27,7 @@ async function getBrandData(brandName: string) {
       reviewCount
     }`;
 
-    const brand = await client.fetch<{title: string} | null>(brandQuery, { brandName }, { next: { tags: ['brands'] } });
+    const brand = await client.fetch<{title: string, slug: string} | null>(brandQuery, { brandName }, { next: { tags: ['brands'] } });
     if (!brand) return { brand: null, products: [] };
     
     const products = await client.fetch<Product[]>(productsQuery, { brandName }, { next: { tags: ['products'] } });
@@ -41,8 +42,16 @@ export async function generateMetadata({ params }: { params: { brandName: string
             title: "Brand not found"
         }
     }
+
+    const description = `Temukan semua produk dari ${brand.title} di Dab Hobbies. Koleksi lengkap dengan jaminan kualitas dan originalitas.`;
+
     return {
-        title: `${brand.title} | Dab Hobbies`
+        title: `Produk ${brand.title} | Dab Hobbies`,
+        description: description,
+         openGraph: {
+            title: `Produk ${brand.title} | Dab Hobbies`,
+            description: description,
+        },
     }
 }
 
