@@ -55,7 +55,8 @@ export default {
     {
         name: 'longDescription',
         title: 'Long Description',
-        type: 'text'
+        type: 'array',
+        of: [{type: 'block'}]
     },
     {
         name: 'price',
