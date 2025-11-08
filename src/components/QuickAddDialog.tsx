@@ -36,8 +36,8 @@ type QuickAddDialogProps = {
 
 export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: QuickAddDialogProps) {
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || '');
-  const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
+  const [selectedSize, setSelectedSize] = useState(product.sizes?.filter(Boolean)[0] || '');
+  const [selectedColor, setSelectedColor] = useState(product.colors?.filter(Boolean)[0] || '');
 
   const { dispatch } = useCart();
   const { toast } = useToast();
@@ -56,13 +56,13 @@ export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: Qui
     // Reset state for next time
     setTimeout(() => {
         setQuantity(1);
-        setSelectedSize(product.sizes?.[0] || '');
-        setSelectedColor(product.colors?.[0] || '');
+        setSelectedSize(product.sizes?.filter(Boolean)[0] || '');
+        setSelectedColor(product.colors?.filter(Boolean)[0] || '');
     }, 300)
   };
 
-  const hasSizes = product.sizes && product.sizes.length > 0;
-  const hasColors = product.colors && product.colors.length > 0;
+  const hasSizes = product.sizes && product.sizes.filter(Boolean).length > 0;
+  const hasColors = product.colors && product.colors.filter(Boolean).length > 0;
 
 
   return (
@@ -92,7 +92,7 @@ export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: Qui
                             <SelectValue placeholder="Select size" />
                             </SelectTrigger>
                             <SelectContent>
-                            {product.sizes.map((size) => (
+                            {product.sizes.filter(Boolean).map((size) => (
                                 <SelectItem key={size} value={size}>{size}</SelectItem>
                             ))}
                             </SelectContent>
@@ -107,7 +107,7 @@ export function QuickAddDialog({ product, isOpen, onOpenChange, onConfirm }: Qui
                             <SelectValue placeholder="Select color" />
                             </SelectTrigger>
                             <SelectContent>
-                            {product.colors.map((color) => (
+                            {product.colors.filter(Boolean).map((color) => (
                                 <SelectItem key={color} value={color}>{color}</SelectItem>
                             ))}
                             </SelectContent>
