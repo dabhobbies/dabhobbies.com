@@ -20,6 +20,7 @@ import { Star, ListFilter, X } from "lucide-react";
 import { formatRupiah } from "@/lib/utils";
 import { useDebounce } from "@/hooks/use-debounce";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { usePathname } from "next/navigation";
 
 interface ShopClientComponentProps {
     products: Product[];
@@ -28,6 +29,9 @@ interface ShopClientComponentProps {
 }
 
 export default function ShopClientComponent({ products, allCategories, allBrands }: ShopClientComponentProps) {
+  const pathname = usePathname();
+  const isCategoryPage = pathname.includes('/shop/category/');
+
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("relevance");
   const maxPrice = useMemo(() => Math.max(...products.map(p => p.price)), [products]);
@@ -99,6 +103,7 @@ export default function ShopClientComponent({ products, allCategories, allBrands
         .toLowerCase()
         .includes(debouncedSearchTerm.toLowerCase());
       const matchesCategory =
+        isCategoryPage || // If on a category page, don't filter by category in the client
         selectedCategories.length === 0 ||
         (product.category && selectedCategories.includes(product.category.title));
       const matchesBrand =
@@ -130,7 +135,7 @@ export default function ShopClientComponent({ products, allCategories, allBrands
     }
 
     return filtered;
-  }, [products, debouncedSearchTerm, selectedCategories, selectedBrands, priceRange, selectedRating, selectedSizes, selectedColors, sortOrder]);
+  }, [products, debouncedSearchTerm, selectedCategories, selectedBrands, priceRange, selectedRating, selectedSizes, selectedColors, sortOrder, isCategoryPage]);
   
   const Filters = () => (
     <div className="space-y-6 pr-4">
@@ -144,27 +149,29 @@ export default function ShopClientComponent({ products, allCategories, allBrands
         />
       </div>
       <Accordion type="multiple" defaultValue={['category', 'brand', 'price', 'rating']} className="w-full">
-        <AccordionItem value="category">
-          <AccordionTrigger className="font-semibold uppercase">Category</AccordionTrigger>
-          <AccordionContent>
-            <ScrollArea className="h-48">
-              <div className="space-y-2 pt-2 pr-4">
-                {allCategories.map((category) => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`cat-${category}`}
-                      checked={selectedCategories.includes(category)}
-                      onCheckedChange={() => handleCategoryChange(category)}
-                    />
-                    <label htmlFor={`cat-${category}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      {category}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
-          </AccordionContent>
-        </AccordionItem>
+        {!isCategoryPage && (
+          <AccordionItem value="category">
+            <AccordionTrigger className="font-semibold uppercase">Category</AccordionTrigger>
+            <AccordionContent>
+              <ScrollArea className="h-48">
+                <div className="space-y-2 pt-2 pr-4">
+                  {allCategories.map((category) => (
+                    <div key={category} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`cat-${category}`}
+                        checked={selectedCategories.includes(category)}
+                        onCheckedChange={() => handleCategoryChange(category)}
+                      />
+                      <label htmlFor={`cat-${category}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        {category}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </AccordionContent>
+          </AccordionItem>
+        )}
         <AccordionItem value="brand">
           <AccordionTrigger className="font-semibold uppercase">Brand</AccordionTrigger>
           <AccordionContent>
@@ -261,10 +268,12 @@ export default function ShopClientComponent({ products, allCategories, allBrands
 
   return (
       <div className="container mx-auto py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold uppercase">All Products</h1>
-          <p className="text-muted-foreground mt-2">Find your perfect gear with our advanced filters.</p>
-        </div>
+        {!isCategoryPage && (
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold uppercase">All Products</h1>
+            <p className="text-muted-foreground mt-2">Find your perfect gear with our advanced filters.</p>
+          </div>
+        )}
         <div className="flex gap-8">
           {/* Sidebar for Desktop */}
           <aside className="hidden lg:block w-1/4 xl:w-1/5">

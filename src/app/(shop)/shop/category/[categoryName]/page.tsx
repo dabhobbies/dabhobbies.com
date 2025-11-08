@@ -1,6 +1,6 @@
 
 import { client } from "@/sanity/client";
-import { ProductCard } from "@/components/ProductCard";
+import ShopClientComponent from "../ShopClientComponent";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -15,6 +15,7 @@ export async function generateStaticParams() {
 
 async function getCategoryData(categoryName: string) {
     const categoryQuery = `*[_type == "productCategory" && slug.current == $categoryName][0]{ title }`;
+    
     const productsQuery = `*[_type == "product" && category->slug.current == $categoryName]{
       _id,
       name,
@@ -24,14 +25,19 @@ async function getCategoryData(categoryName: string) {
       brand->{title},
       category->{title},
       rating,
-      reviewCount
+      sizes,
+      colors
     }`;
 
     const category = await client.fetch<{title: string} | null>(categoryQuery, { categoryName });
-    if (!category) return { category: null, products: [] };
+    if (!category) return { category: null, products: [], allBrands: [], allCategories: [] };
     
     const products = await client.fetch<Product[]>(productsQuery, { categoryName });
-    return { category, products };
+
+    // Extract unique brands from the fetched products for this category
+    const allBrands = [...new Set(products.map(p => p.brand.title).filter(Boolean))].sort();
+
+    return { category, products, allBrands, allCategories: [category.title] };
 }
 
 export async function generateMetadata({ params }: { params: { categoryName: string } }): Promise<Metadata> {
@@ -48,9 +54,8 @@ export async function generateMetadata({ params }: { params: { categoryName: str
     }
 }
 
-
 export default async function CategoryPage({ params }: { params: { categoryName: string } }) {
-  const { category, products: filteredProducts } = await getCategoryData(params.categoryName);
+  const { category, products, allBrands, allCategories } = await getCategoryData(params.categoryName);
 
   if (!category) {
     notFound();
@@ -64,16 +69,8 @@ export default async function CategoryPage({ params }: { params: { categoryName:
   return (
     <>
       <Breadcrumbs items={breadcrumbItems} />
-      <div className="container mx-auto py-16 md:py-24">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-12 uppercase">
-          {category.title}
-        </h1>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
-      </div>
+      <ShopClientComponent products={products} allCategories={allCategories} allBrands={allBrands} />
     </>
   );
 }
+
