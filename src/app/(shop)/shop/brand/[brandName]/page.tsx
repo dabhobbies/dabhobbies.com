@@ -1,4 +1,3 @@
-
 import { client } from "@/sanity/client";
 import { ProductCard } from "@/components/ProductCard";
 import { notFound } from "next/navigation";
@@ -7,7 +6,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import type { Product } from "@/lib/data";
 
 export async function generateStaticParams() {
-  const brands = await client.fetch< {slug: {current: string}}[] >(`*[_type == "productBrand" && defined(slug.current)]{ "slug": slug }`);
+  const brands = await client.fetch< {slug: {current: string}}[] >(`*[_type == "productBrand" && defined(slug.current)]{ "slug": slug }`, {}, { next: { tags: ['brands'] } });
   return brands.map((brand) => ({
     brandName: brand.slug.current,
   }));
@@ -27,10 +26,10 @@ async function getBrandData(brandName: string) {
       reviewCount
     }`;
 
-    const brand = await client.fetch<{title: string} | null>(brandQuery, { brandName });
+    const brand = await client.fetch<{title: string} | null>(brandQuery, { brandName }, { next: { tags: ['brands'] } });
     if (!brand) return { brand: null, products: [] };
     
-    const products = await client.fetch<Product[]>(productsQuery, { brandName });
+    const products = await client.fetch<Product[]>(productsQuery, { brandName }, { next: { tags: ['products'] } });
     return { brand, products };
 }
 

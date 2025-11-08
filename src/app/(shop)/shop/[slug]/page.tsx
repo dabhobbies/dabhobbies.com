@@ -1,5 +1,3 @@
-
-
 // This is a server component
 import { notFound } from "next/navigation";
 import ProductClientComponent from "./ProductClientComponent";
@@ -13,7 +11,7 @@ async function getProductData(slug: string) {
         brand->,
         category->
     }`;
-    const product = await client.fetch<Product | null>(productQuery, { slug });
+    const product = await client.fetch<Product | null>(productQuery, { slug }, { next: { tags: ['products'] } });
 
     if (!product) return { product: null, relatedProducts: [] };
 
@@ -29,7 +27,7 @@ async function getProductData(slug: string) {
     const relatedProducts = await client.fetch<Product[]>(relatedProductsQuery, { 
         categorySlug: product.category.slug.current,
         slug: product.slug.current
-    });
+    }, { next: { tags: ['products'] } });
     
     return { product, relatedProducts };
 }
@@ -63,4 +61,3 @@ export async function generateStaticParams() {
         slug: product.slug.current
     }));
 }
-

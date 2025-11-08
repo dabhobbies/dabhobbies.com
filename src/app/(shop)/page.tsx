@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
 import type { Product } from "@/lib/data";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
@@ -48,25 +48,25 @@ export default function Home() {
           name,
           slug,
           price,
-          "images": images[].asset->url,
+          "images": images,
           brand->{title},
           category->{title}
         }`;
         const categoriesQuery = `*[_type == "productCategory"] | order(title asc){
           title,
           slug,
-          "imageUrl": image.asset->url
+          "image": image
         }`;
         const brandsQuery = `*[_type == "productBrand"] | order(title asc){
           title,
           slug,
-          "imageUrl": image.asset->url
+          "image": image
         }`;
 
         const [featuredProducts, categories, brands] = await Promise.all([
-          client.fetch<Product[]>(featuredProductsQuery),
-          client.fetch<{title: string, slug: {current: string}, imageUrl: string}[]>(categoriesQuery),
-          client.fetch<{title: string, slug: {current: string}, imageUrl: string}[]>(brandsQuery)
+          client.fetch<Product[]>(featuredProductsQuery, {}, { next: { tags: ['products'] } }),
+          client.fetch<any[]>(categoriesQuery, {}, { next: { tags: ['categories'] } }),
+          client.fetch<any[]>(brandsQuery, {}, { next: { tags: ['brands'] } })
         ]);
         
         setData({ featuredProducts, categories, brands });
@@ -162,7 +162,7 @@ export default function Home() {
                     {data.categories.map(c => (
                         <Link href={`/shop/category/${c.slug.current}`} key={c.slug.current} className="group block text-center" prefetch={true}>
                             <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                                {c.imageUrl && <Image src={c.imageUrl} alt={c.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />}
+                                {c.image && <Image src={urlFor(c.image).width(400).height(400).url()} alt={c.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />}
                                 <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                             </div>
                             <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{c.title}</h3>
@@ -182,7 +182,7 @@ export default function Home() {
                     {data.brands.map(b => (
                          <Link href={`/shop/brand/${b.slug.current}`} key={b.slug.current} className="group block text-center" prefetch={true}>
                              <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                                {b.imageUrl && <Image src={b.imageUrl} alt={b.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"/>}
+                                {b.image && <Image src={urlFor(b.image).width(400).height(400).url()} alt={b.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"/>}
                                 <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300"/>
                             </div>
                             <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{b.title}</h3>

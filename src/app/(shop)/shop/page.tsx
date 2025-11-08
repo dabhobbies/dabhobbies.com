@@ -1,4 +1,3 @@
-
 import { client } from "@/sanity/client";
 import ShopClientComponent from "./ShopClientComponent";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -21,9 +20,9 @@ async function getShopData() {
     const brandsQuery = `*[_type == "productBrand"] | order(title asc){ title }`;
 
     const [products, categories, brands] = await Promise.all([
-      client.fetch<Product[]>(productsQuery),
-      client.fetch<{title: string}[]>(categoriesQuery),
-      client.fetch<{title: string}[]>(brandsQuery)
+      client.fetch<Product[]>(productsQuery, {}, { next: { tags: ['products'] } }),
+      client.fetch<{title: string}[]>(categoriesQuery, {}, { next: { tags: ['categories'] } }),
+      client.fetch<{title: string}[]>(brandsQuery, {}, { next: { tags: ['brands'] } })
     ]);
     
     return { 

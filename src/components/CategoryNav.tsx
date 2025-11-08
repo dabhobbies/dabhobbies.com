@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { client } from '@/sanity/client';
 
@@ -10,7 +9,7 @@ type Category = {
 };
 
 export async function CategoryNav() {
-  const categories = await client.fetch<Category[]>(`*[_type == "productCategory"] | order(title asc)`);
+  const categories = await client.fetch<Category[]>(`*[_type == "productCategory"] | order(title asc)`, {}, { next: { tags: ['categories'] } });
 
   return (
     <div className="bg-card/30 backdrop-blur-xl border-b border-white/10">
