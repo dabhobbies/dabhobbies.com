@@ -43,7 +43,7 @@ export default function Home() {
 
   useEffect(() => {
     async function getFeaturedData() {
-        const featuredProductsQuery = `*[_type == "product"] | order(rating desc)[0...20]{
+        const featuredProductsQuery = `*[_type == "product" && category->slug.current == "helmets"] | order(rating desc)[0...20]{
           _id,
           name,
           slug,
@@ -52,12 +52,12 @@ export default function Home() {
           brand->{title},
           category->{title}
         }`;
-        const categoriesQuery = `*[_type == "productCategory"]{
+        const categoriesQuery = `*[_type == "productCategory"] | order(title asc){
           title,
           slug,
           "imageUrl": image.asset->url
         }`;
-        const brandsQuery = `*[_type == "productBrand"]{
+        const brandsQuery = `*[_type == "productBrand"] | order(title asc){
           title,
           slug,
           "imageUrl": image.asset->url
