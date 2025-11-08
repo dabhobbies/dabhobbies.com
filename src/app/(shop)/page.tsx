@@ -6,7 +6,7 @@ import { client, urlFor } from "@/sanity/client";
 import type { Product } from "@/lib/data";
 
 async function getFeaturedData() {
-    const featuredProductsQuery = `*[_type == "product"] | order(rating desc)[0...4]{
+    const featuredProductsQuery = `*[_type == "product"] | order(rating desc)[0...20]{
       _id,
       name,
       slug,
@@ -55,7 +55,7 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-background via-[#0a0a0a] to-background opacity-90"/>
       </div>
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[80vh] w-full flex items-center justify-center text-center text-white">
+      <section className="relative min-h-screen w-full flex items-center justify-center text-center text-white">
         <Image
           src={heroImage.imageUrl}
           alt={heroImage.description}
