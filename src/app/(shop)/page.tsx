@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { client, urlFor } from "@/sanity/client";
 import type { Product } from "@/lib/data";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useState }from "react";
 
@@ -125,6 +125,8 @@ export default function Home() {
                 </CarouselItem>
                 ))}
             </CarouselContent>
+            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-white/30 hover:bg-black/50" />
+            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-white/30 hover:bg-black/50" />
         </Carousel>
       </section>
 
