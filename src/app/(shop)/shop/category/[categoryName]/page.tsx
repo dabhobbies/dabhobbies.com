@@ -1,6 +1,6 @@
 
 import { client } from "@/sanity/client";
-import ShopClientComponent from "../ShopClientComponent";
+import ShopClientComponent from "../../ShopClientComponent";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -73,4 +73,3 @@ export default async function CategoryPage({ params }: { params: { categoryName:
     </>
   );
 }
-
