@@ -7,15 +7,15 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import type { Product } from "@/lib/data";
 
 export async function generateStaticParams() {
-  const brands = await client.fetch< {slug: {current: string}}[] >(`*[_type == "productBrand" && defined(slug.current)]{ "slug": slug }`, {}, { next: { tags: ['brands'] } });
+  const brands = await client.fetch<{ slug: { current: string } }[]>(`*[_type == "productBrand" && defined(slug.current)]{ "slug": slug }`, {}, { next: { tags: ['brands'] } });
   return brands.map((brand) => ({
     brandName: brand.slug.current,
   }));
 }
 
 async function getBrandData(brandName: string) {
-    const brandQuery = `*[_type == "productBrand" && slug.current == $brandName][0]{ title, "slug": slug.current }`;
-    const productsQuery = `*[_type == "product" && brand->slug.current == $brandName]{
+  const brandQuery = `*[_type == "productBrand" && slug.current == $brandName][0]{ title, "slug": slug.current }`;
+  const productsQuery = `*[_type == "product" && brand->slug.current == $brandName]{
       _id,
       name,
       slug,
@@ -27,45 +27,47 @@ async function getBrandData(brandName: string) {
       reviewCount
     }`;
 
-    const brand = await client.fetch<{title: string, slug: string} | null>(brandQuery, { brandName }, { next: { tags: ['brands'] } });
-    if (!brand) return { brand: null, products: [] };
-    
-    const products = await client.fetch<Product[]>(productsQuery, { brandName }, { next: { tags: ['products'] } });
-    return { brand, products };
+  const brand = await client.fetch<{ title: string, slug: string } | null>(brandQuery, { brandName }, { next: { tags: ['brands'] } });
+  if (!brand) return { brand: null, products: [] };
+
+  const products = await client.fetch<Product[]>(productsQuery, { brandName }, { next: { tags: ['products'] } });
+  return { brand, products };
 }
 
 
-export async function generateMetadata({ params }: { params: { brandName: string } }): Promise<Metadata> {
-    const { brand } = await getBrandData(params.brandName);
-    if (!brand) {
-        return {
-            title: "Brand not found"
-        }
-    }
-
-    const description = `Temukan semua produk dari ${brand.title} di Dab Hobbies. Koleksi lengkap dengan jaminan kualitas dan originalitas.`;
-
+export async function generateMetadata({ params }: { params: Promise<{ brandName: string }> }): Promise<Metadata> {
+  const { brandName } = await params;
+  const { brand } = await getBrandData(brandName);
+  if (!brand) {
     return {
-        title: `Produk ${brand.title} | Dab Hobbies`,
-        description: description,
-         openGraph: {
-            title: `Produk ${brand.title} | Dab Hobbies`,
-            description: description,
-        },
+      title: "Brand not found"
     }
+  }
+
+  const description = `Temukan semua produk dari ${brand.title} di Dab Hobbies. Koleksi lengkap dengan jaminan kualitas dan originalitas.`;
+
+  return {
+    title: `Produk ${brand.title} | Dab Hobbies`,
+    description: description,
+    openGraph: {
+      title: `Produk ${brand.title} | Dab Hobbies`,
+      description: description,
+    },
+  }
 }
 
 
-export default async function BrandPage({ params }: { params: { brandName: string } }) {
-  const { brand, products: filteredProducts } = await getBrandData(params.brandName);
+export default async function BrandPage({ params }: { params: Promise<{ brandName: string }> }) {
+  const { brandName } = await params;
+  const { brand, products: filteredProducts } = await getBrandData(brandName);
 
   if (!brand) {
     notFound();
   }
-  
+
   const breadcrumbItems = [
     { label: "Shop", href: "/shop" },
-    { label: brand.title, href: `/shop/brand/${params.brandName}` }
+    { label: brand.title, href: `/shop/brand/${brandName}` }
   ];
 
   return (

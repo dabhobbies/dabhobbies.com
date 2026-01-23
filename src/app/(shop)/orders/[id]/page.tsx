@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
-export default function OrderThankYouPage({ params }: { params: { id: string } }) {
+export default async function OrderThankYouPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   return (
     <div className="container mx-auto py-12 md:py-16">
       <Card className="max-w-2xl mx-auto text-center">

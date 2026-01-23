@@ -28,16 +28,17 @@ async function getProductData(slug: string) {
         brand->{title},
         category->{title}
     }`;
-    const relatedProducts = await client.fetch<Product[]>(relatedProductsQuery, { 
+    const relatedProducts = await client.fetch<Product[]>(relatedProductsQuery, {
         categorySlug: product.category.slug.current,
         slug: product.slug.current
     }, { next: { tags: ['products'] } });
-    
+
     return { product, relatedProducts };
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const { product } = await getProductData(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const { product } = await getProductData(slug);
     if (!product) {
         return {
             title: "Product not found"
@@ -63,77 +64,78 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const { product, relatedProducts } = await getProductData(params.slug);
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const { product, relatedProducts } = await getProductData(slug);
 
-  if (!product) {
-    notFound();
-  }
+    if (!product) {
+        notFound();
+    }
 
-  const breadcrumbItems = [
-      { label: "Shop", href: "/shop" },
-      { label: product.category.title, href: `/shop/category/${product.category.slug.current}`},
-      { label: product.name, href: `/shop/${product.slug.current}` }
-  ];
+    const breadcrumbItems = [
+        { label: "Shop", href: "/shop" },
+        { label: product.category.title, href: `/shop/category/${product.category.slug.current}` },
+        { label: product.name, href: `/shop/${product.slug.current}` }
+    ];
 
-  const productJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.name,
-    description: product.description ? toPlainText(product.description) : undefined,
-    image: urlFor(product.images[0]).url(),
-    sku: product._id,
-    brand: {
-      '@type': 'Brand',
-      name: product.brand.title,
-    },
-    offers: {
-      '@type': 'Offer',
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/shop/${product.slug.current}`,
-      priceCurrency: 'IDR',
-      price: product.price,
-      availability: 'https://schema.org/InStock',
-    },
-     ...(product.rating && product.reviewCount && {
-        aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: product.rating,
-            reviewCount: product.reviewCount,
+    const productJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.name,
+        description: product.description ? toPlainText(product.description) : undefined,
+        image: urlFor(product.images[0]).url(),
+        sku: product._id,
+        brand: {
+            '@type': 'Brand',
+            name: product.brand.title,
         },
-    })
-  };
+        offers: {
+            '@type': 'Offer',
+            url: `${process.env.NEXT_PUBLIC_SITE_URL}/shop/${product.slug.current}`,
+            priceCurrency: 'IDR',
+            price: product.price,
+            availability: 'https://schema.org/InStock',
+        },
+        ...(product.rating && product.reviewCount && {
+            aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: product.rating,
+                reviewCount: product.reviewCount,
+            },
+        })
+    };
 
-  const breadcrumbJsonLd = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: breadcrumbItems.map((item, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: item.label,
-          item: `${process.env.NEXT_PUBLIC_SITE_URL}${item.href}`
-      }))
-  };
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbItems.map((item, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: item.label,
+            item: `${process.env.NEXT_PUBLIC_SITE_URL}${item.href}`
+        }))
+    };
 
-  return (
-    <>
-      <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
-      />
-      <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <Breadcrumbs items={breadcrumbItems} />
-      <div className="container mx-auto py-12 md:py-16">
-         <ProductClientComponent product={product} relatedProducts={relatedProducts} />
-      </div>
-    </>
-  );
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
+            <Breadcrumbs items={breadcrumbItems} />
+            <div className="container mx-auto py-12 md:py-16">
+                <ProductClientComponent product={product} relatedProducts={relatedProducts} />
+            </div>
+        </>
+    );
 }
 
 export async function generateStaticParams() {
-    const products = await client.fetch< {slug: {current: string}}[] >(`*[_type == "product" && defined(slug.current)]{ "slug": slug }`);
+    const products = await client.fetch<{ slug: { current: string } }[]>(`*[_type == "product" && defined(slug.current)]{ "slug": slug }`);
     return products.map(product => ({
         slug: product.slug.current
     }));
