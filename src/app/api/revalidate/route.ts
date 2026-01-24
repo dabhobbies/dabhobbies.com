@@ -15,9 +15,10 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { _type, slug } = body;
+  // Extract all relevant fields from the webhook payload
+  const { _type, slug, category } = body;
 
-  console.log('Revalidation request received:', { _type, slug, body });
+  console.log('Revalidation request received:', JSON.stringify(body, null, 2));
 
   if (!_type) {
     return new Response('Bad Request: Missing _type in body', { status: 400 });
@@ -38,7 +39,14 @@ export async function POST(request: NextRequest) {
   };
 
   const tags = tagsToRevalidate[_type] || [];
-  const paths = pathsToRevalidate[_type] || [];
+  const paths = [...(pathsToRevalidate[_type] || [])];
+
+  // For products, also revalidate the category page
+  if (_type === 'product' && category?.slug?.current) {
+    const categoryPath = `/shop/category/${category.slug.current}`;
+    paths.push(categoryPath);
+    console.log(`Adding category path to revalidate: ${categoryPath}`);
+  }
 
   // Revalidate the tags
   tags.forEach(tag => {
