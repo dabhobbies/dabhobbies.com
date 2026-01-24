@@ -134,8 +134,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     );
 }
 
+// Allow dynamic params for new products that weren't generated at build time
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
-    const products = await client.fetch<{ slug: { current: string } }[]>(`*[_type == "product" && defined(slug.current)]{ "slug": slug }`);
+    const products = await client.fetch<{ slug: { current: string } }[]>(
+        `*[_type == "product" && defined(slug.current)]{ "slug": slug }`,
+        {},
+        { next: { tags: ['products'] } }
+    );
     return products.map(product => ({
         slug: product.slug.current
     }));

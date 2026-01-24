@@ -6,6 +6,9 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import type { Product } from "@/lib/data";
 
+// Allow dynamic params for new categories that weren't generated at build time
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const categories = await client.fetch<{ slug: { current: string } }[]>(`*[_type == "productCategory" && defined(slug.current)]{ "slug": slug }`, {}, { next: { tags: ['categories'] } });
   return categories.map((category) => ({

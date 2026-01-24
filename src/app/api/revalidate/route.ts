@@ -1,19 +1,23 @@
 // src/app/api/revalidate/route.ts
 
 import { type NextRequest } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidateTag, revalidatePath } from 'next/cache'
 
 // This file is based on the example from the Next.js App Router documentation:
 // https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#on-demand-revalidation
 
 export async function POST(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret')
- 
+
   if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
+    console.log('Revalidation failed: Invalid secret');
     return new Response('Invalid secret', { status: 401 })
   }
- 
-  const { _type } = await request.json();
+
+  const body = await request.json();
+  const { _type, slug } = body;
+
+  console.log('Revalidation request received:', { _type, slug, body });
 
   if (!_type) {
     return new Response('Bad Request: Missing _type in body', { status: 400 });
@@ -22,20 +26,61 @@ export async function POST(request: NextRequest) {
   // Define tags to revalidate based on the document type
   const tagsToRevalidate: { [key: string]: string[] } = {
     product: ['products', 'categories', 'brands'],
-    productCategory: ['categories'],
-    productBrand: ['brands'],
+    productCategory: ['categories', 'products'],
+    productBrand: ['brands', 'products'],
   };
 
-  const tags = tagsToRevalidate[_type];
+  // Define paths to revalidate based on the document type
+  const pathsToRevalidate: { [key: string]: string[] } = {
+    product: ['/', '/shop'],
+    productCategory: ['/', '/shop'],
+    productBrand: ['/', '/shop'],
+  };
 
-  if (!tags) {
-     return new Response(`No tags to revalidate for type: ${_type}`, { status: 200 });
-  }
+  const tags = tagsToRevalidate[_type] || [];
+  const paths = pathsToRevalidate[_type] || [];
 
   // Revalidate the tags
-  tags.forEach(tag => revalidateTag(tag));
-  
-  console.log(`Revalidated tags: ${tags.join(', ')} for type: ${_type}`);
+  tags.forEach(tag => {
+    console.log(`Revalidating tag: ${tag}`);
+    revalidateTag(tag);
+  });
 
-  return new Response(JSON.stringify({ revalidated: true, now: Date.now(), revalidatedTags: tags }), { status: 200 });
+  // Revalidate specific paths
+  paths.forEach(path => {
+    console.log(`Revalidating path: ${path}`);
+    revalidatePath(path, 'page');
+  });
+
+  // If a specific slug is provided, revalidate that specific page
+  if (slug?.current) {
+    if (_type === 'product') {
+      const productPath = `/shop/${slug.current}`;
+      console.log(`Revalidating product path: ${productPath}`);
+      revalidatePath(productPath, 'page');
+    } else if (_type === 'productCategory') {
+      const categoryPath = `/shop/category/${slug.current}`;
+      console.log(`Revalidating category path: ${categoryPath}`);
+      revalidatePath(categoryPath, 'page');
+    } else if (_type === 'productBrand') {
+      const brandPath = `/shop/brand/${slug.current}`;
+      console.log(`Revalidating brand path: ${brandPath}`);
+      revalidatePath(brandPath, 'page');
+    }
+  }
+
+  console.log(`Revalidation complete for type: ${_type}. Tags: ${tags.join(', ')}. Paths: ${paths.join(', ')}`);
+
+  return new Response(JSON.stringify({
+    revalidated: true,
+    now: Date.now(),
+    revalidatedTags: tags,
+    revalidatedPaths: paths
+  }), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }
+

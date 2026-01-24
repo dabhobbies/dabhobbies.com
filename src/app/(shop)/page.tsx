@@ -1,15 +1,11 @@
 
-'use client'
-
 import { ProductCard } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/sanity/client";
+import { client, urlFor } from "@/sanity/client";
 import type { Product } from "@/lib/data";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import { useEffect, useState } from "react";
+import { HeroCarousel } from "@/components/HeroCarousel";
 
 const heroSlides = [
   {
@@ -38,41 +34,38 @@ const heroSlides = [
   }
 ];
 
-export default function Home() {
-  const [data, setData] = useState<{ featuredProducts: Product[], categories: any[], brands: any[] } | null>(null);
+async function getHomeData() {
+  const featuredProductsQuery = `*[_type == "product" && category->slug.current == "helmets"] | order(rating desc)[0...20]{
+      _id,
+      name,
+      slug,
+      price,
+      "images": images,
+      brand->{title},
+      category->{title}
+    }`;
+  const categoriesQuery = `*[_type == "productCategory"] | order(title asc){
+      title,
+      slug,
+      "image": image
+    }`;
+  const brandsQuery = `*[_type == "productBrand"] | order(title asc){
+      title,
+      slug,
+      "image": image
+    }`;
 
-  useEffect(() => {
-    async function getFeaturedData() {
-      const featuredProductsQuery = `*[_type == "product" && category->slug.current == "helmets"] | order(rating desc)[0...20]{
-          _id,
-          name,
-          slug,
-          price,
-          "images": images,
-          brand->{title},
-          category->{title}
-        }`;
-      const categoriesQuery = `*[_type == "productCategory"] | order(title asc){
-          title,
-          slug,
-          "image": image
-        }`;
-      const brandsQuery = `*[_type == "productBrand"] | order(title asc){
-          title,
-          slug,
-          "image": image
-        }`;
+  const [featuredProducts, categories, brands] = await Promise.all([
+    client.fetch<Product[]>(featuredProductsQuery, {}, { next: { tags: ['products'] } }),
+    client.fetch<any[]>(categoriesQuery, {}, { next: { tags: ['categories'] } }),
+    client.fetch<any[]>(brandsQuery, {}, { next: { tags: ['brands'] } })
+  ]);
 
-      const [featuredProducts, categories, brands] = await Promise.all([
-        client.fetch<Product[]>(featuredProductsQuery, {}, { next: { tags: ['products'] } }),
-        client.fetch<any[]>(categoriesQuery, {}, { next: { tags: ['categories'] } }),
-        client.fetch<any[]>(brandsQuery, {}, { next: { tags: ['brands'] } })
-      ]);
+  return { featuredProducts, categories, brands };
+}
 
-      setData({ featuredProducts, categories, brands });
-    }
-    getFeaturedData();
-  }, []);
+export default async function Home() {
+  const { featuredProducts, categories, brands } = await getHomeData();
 
   return (
     <div>
@@ -87,48 +80,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative h-[85vh] w-full text-white">
-        <Carousel
-          plugins={[
-            Autoplay({
-              delay: 5000,
-              stopOnInteraction: true,
-            }),
-          ]}
-          className="w-full h-full"
-        >
-          <CarouselContent>
-            {heroSlides.map((slide, index) => (
-              <CarouselItem key={index}>
-                <div className="relative w-full h-[85vh]">
-                  <Image
-                    src={slide.imageUrl}
-                    alt={slide.description}
-                    fill
-                    className="object-cover"
-                    priority={index === 0}
-                    data-ai-hint={slide.imageHint}
-                  />
-                  <div className="absolute inset-0 bg-black/50" />
-                  <div className="relative z-10 h-full flex flex-col items-center justify-center text-center p-8 max-w-3xl mx-auto">
-                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase drop-shadow-lg">
-                      {slide.title}
-                    </h1>
-                    <p className="mt-4 text-lg md:text-xl text-white/90 drop-shadow-md">
-                      {slide.description}
-                    </p>
-                    <Button asChild size="lg" className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg uppercase">
-                      <Link href={slide.buttonLink}>{slide.buttonText}</Link>
-                    </Button>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-white/30 hover:bg-black/50" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white border-white/30 hover:bg-black/50" />
-        </Carousel>
-      </section>
+      <HeroCarousel slides={heroSlides} />
 
       {/* Featured Products Section */}
       <section id="featured-products" className="py-16 md:py-24">
@@ -136,20 +88,16 @@ export default function Home() {
           <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">
             Featured Products
           </h2>
-          {data && (
-            <>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {data.featuredProducts.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))}
-              </div>
-              <div className="text-center mt-12">
-                <Button asChild variant="outline" size="lg" className="uppercase bg-transparent hover:bg-primary/10">
-                  <Link href="/shop" prefetch={true}>View All Products</Link>
-                </Button>
-              </div>
-            </>
-          )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Button asChild variant="outline" size="lg" className="uppercase bg-transparent hover:bg-primary/10">
+              <Link href="/shop" prefetch={true}>View All Products</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -157,19 +105,17 @@ export default function Home() {
       <section className="bg-secondary/50 py-16 md:py-24">
         <div className="container">
           <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Category</h2>
-          {data && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              {data.categories.map(c => (
-                <Link href={`/shop/category/${c.slug.current}`} key={c.slug.current} className="group block text-center" prefetch={true}>
-                  <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                    {c.image && <Image src={urlFor(c.image).width(400).height(400).url()} alt={c.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />}
-                    <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300" />
-                  </div>
-                  <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{c.title}</h3>
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {categories.map(c => (
+              <Link href={`/shop/category/${c.slug.current}`} key={c.slug.current} className="group block text-center" prefetch={true}>
+                <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
+                  {c.image && <Image src={urlFor(c.image).width(400).height(400).url()} alt={c.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />}
+                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300" />
+                </div>
+                <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{c.title}</h3>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -177,19 +123,17 @@ export default function Home() {
       <section className="py-16 md:py-24">
         <div className="container">
           <h2 className="text-3xl font-bold tracking-tight text-center mb-12 uppercase">Shop by Brand</h2>
-          {data && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              {data.brands.map(b => (
-                <Link href={`/shop/brand/${b.slug.current}`} key={b.slug.current} className="group block text-center" prefetch={true}>
-                  <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-                    {b.image && <Image src={urlFor(b.image).width(400).height(400).url()} alt={b.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />}
-                    <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300" />
-                  </div>
-                  <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{b.title}</h3>
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {brands.map(b => (
+              <Link href={`/shop/brand/${b.slug.current}`} key={b.slug.current} className="group block text-center" prefetch={true}>
+                <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
+                  {b.image && <Image src={urlFor(b.image).width(400).height(400).url()} alt={b.title} width={400} height={400} className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105" />}
+                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-all duration-300" />
+                </div>
+                <h3 className="mt-4 text-xl font-semibold text-foreground group-hover:text-primary transition-colors uppercase">{b.title}</h3>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
